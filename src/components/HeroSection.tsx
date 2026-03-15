@@ -1,19 +1,38 @@
 import { motion } from "framer-motion";
+import profilePhoto from "@/assets/profile-photo.png";
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden pt-14">
       {/* Background grid */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: 'linear-gradient(hsl(160 60% 45%) 1px, transparent 1px), linear-gradient(90deg, hsl(160 60% 45%) 1px, transparent 1px)',
         backgroundSize: '60px 60px'
       }} />
 
-      <div className="max-w-3xl w-full relative z-10">
+      <div className="max-w-3xl w-full relative z-10 flex flex-col items-center text-center">
+        {/* Profile Photo */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="mb-8 relative"
+        >
+          <div className="w-40 h-40 md:w-52 md:h-52 rounded-full overflow-hidden border-2 border-primary/40 glow-box-strong">
+            <img
+              src={profilePhoto}
+              alt="Profile photo"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          {/* Decorative ring */}
+          <div className="absolute inset-0 rounded-full border border-primary/10 scale-[1.15]" />
+        </motion.div>
+
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.3 }}
           className="font-heading text-primary text-sm md:text-base mb-4"
         >
           {">"} hello_world
@@ -22,7 +41,7 @@ const HeroSection = () => {
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.5 }}
           className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
         >
           I'm <span className="text-gradient">Your Name</span>
@@ -32,7 +51,7 @@ const HeroSection = () => {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.7 }}
           className="text-muted-foreground text-lg md:text-xl max-w-xl leading-relaxed mb-8"
         >
           Software Engineer & Data Scientist. Passionate about building elegant solutions and extracting insights from data.
@@ -41,7 +60,7 @@ const HeroSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
+          transition={{ delay: 0.9 }}
           className="flex gap-4"
         >
           <a
