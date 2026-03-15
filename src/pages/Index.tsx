@@ -1,21 +1,42 @@
+import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
 import SkillsSection from "@/components/SkillsSection";
+import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background noise-bg">
       <Navbar />
       <HeroSection />
+      {/* Divider */}
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      </div>
       <AboutSection />
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      </div>
       <SkillsSection />
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      </div>
+      <ProjectsSection />
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      </div>
       <ContactSection />
-      <footer className="py-8 px-6 border-t border-border text-center">
-        <p className="font-heading text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Your Name. Built with passion.
-        </p>
+      <footer className="py-10 px-6 border-t border-border/50 text-center relative">
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="font-heading text-xs text-muted-foreground"
+        >
+          © {new Date().getFullYear()} Your Name · Built with passion & code
+        </motion.p>
       </footer>
     </div>
   );
