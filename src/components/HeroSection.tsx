@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import profilePhoto from "@/assets/profile-photo.png";
+import { Download } from "lucide-react";
+import profilePhoto from "@/assets/profile-photo.jpeg";
 import FloatingParticles from "./FloatingParticles";
 
 const HeroSection = () => {
@@ -42,9 +43,8 @@ const HeroSection = () => {
           className="mb-8 relative group"
         >
           <div className="w-40 h-40 md:w-52 md:h-52 rounded-full overflow-hidden border-2 border-primary/40 glow-box-strong transition-shadow duration-500 group-hover:shadow-[0_0_100px_hsl(160_60%_45%/0.3)]">
-            <img src={profilePhoto} alt="Profile photo" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <img src={profilePhoto} alt="Mohamed Abdelmegeed" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
           </div>
-          {/* Animated rings */}
           <motion.div
             className="absolute inset-0 rounded-full border border-primary/20"
             animate={{ scale: [1.15, 1.25, 1.15], opacity: [0.3, 0.1, 0.3] }}
@@ -55,7 +55,6 @@ const HeroSection = () => {
             animate={{ scale: [1.3, 1.4, 1.3], opacity: [0.2, 0.05, 0.2] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           />
-          {/* Status dot */}
           <motion.div
             className="absolute bottom-2 right-2 md:bottom-3 md:right-3 w-4 h-4 rounded-full bg-primary border-2 border-background"
             animate={{ scale: [1, 1.2, 1] }}
@@ -69,18 +68,9 @@ const HeroSection = () => {
           transition={{ delay: 0.3 }}
           className="font-heading text-primary text-sm md:text-base mb-4 tracking-wider"
         >
-          <motion.span
-            animate={{ opacity: [0, 1] }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >{">"}</motion.span>
-          <motion.span
-            animate={{ opacity: [0, 1] }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-          > hello</motion.span>
-          <motion.span
-            animate={{ opacity: [0, 1] }}
-            transition={{ duration: 0.5, delay: 0.9 }}
-          >_world</motion.span>
+          <motion.span animate={{ opacity: [0, 1] }} transition={{ duration: 0.5, delay: 0.5 }}>{">"}</motion.span>
+          <motion.span animate={{ opacity: [0, 1] }} transition={{ duration: 0.5, delay: 0.7 }}> hello</motion.span>
+          <motion.span animate={{ opacity: [0, 1] }} transition={{ duration: 0.5, delay: 0.9 }}>_world</motion.span>
         </motion.p>
 
         <motion.h1
@@ -89,7 +79,7 @@ const HeroSection = () => {
           transition={{ delay: 0.5, duration: 0.8, type: "spring" }}
           className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
         >
-          I'm <span className="text-gradient">Your Name</span>
+          I'm <span className="text-gradient">Mohamed Abdelmegeed</span>
           <motion.span
             className="text-primary inline-block"
             animate={{ opacity: [1, 0] }}
@@ -103,7 +93,7 @@ const HeroSection = () => {
           transition={{ delay: 0.7 }}
           className="text-muted-foreground text-lg md:text-xl max-w-xl leading-relaxed mb-10"
         >
-          Software Engineer & Data Scientist. Passionate about building elegant solutions and extracting insights from data.
+          Software Developer & Data Scientist. Passionate about building elegant solutions and extracting insights from data.
         </motion.p>
 
         <motion.div
@@ -121,12 +111,14 @@ const HeroSection = () => {
             Get in touch
           </motion.a>
           <motion.a
-            href="#about"
+            href="/Mohamed_Abdelmegeed_Resume.pdf"
+            download
             whileHover={{ scale: 1.05, borderColor: "hsl(160, 60%, 45%)" }}
             whileTap={{ scale: 0.95 }}
-            className="font-heading text-sm px-8 py-3.5 border-glow rounded-lg text-foreground glass transition-all"
+            className="font-heading text-sm px-8 py-3.5 border-glow rounded-lg text-foreground glass transition-all inline-flex items-center justify-center gap-2"
           >
-            Learn more
+            <Download className="w-4 h-4" />
+            Download CV
           </motion.a>
         </motion.div>
 

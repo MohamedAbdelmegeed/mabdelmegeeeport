@@ -8,13 +8,17 @@ const skills = [
   { name: "JavaScript", level: 80, color: "from-[hsl(50,90%,50%)] to-[hsl(40,80%,55%)]" },
   { name: "HTML", level: 90, color: "from-[hsl(15,80%,55%)] to-[hsl(25,80%,50%)]" },
   { name: "CSS", level: 85, color: "from-[hsl(210,80%,55%)] to-[hsl(230,70%,55%)]" },
-  { name: "React", level: 75, color: "from-[hsl(190,80%,50%)] to-[hsl(200,70%,55%)]" },
+  { name: "SQL", level: 60, color: "from-[hsl(280,60%,55%)] to-[hsl(300,50%,50%)]" },
+  { name: "React", level: 60, color: "from-[hsl(190,80%,50%)] to-[hsl(200,70%,55%)]" },
+  { name: "Next.js", level: 40, color: "from-[hsl(0,0%,60%)] to-[hsl(0,0%,40%)]" },
 ];
+
+const tools = ["VS Code", "Visual Studio", "PyCharm", "IntelliJ", "CLion", "SSMS", "Code::Blocks"];
+const languages = ["English (C1)", "German (A2)"];
 
 const SkillsSection = () => {
   return (
     <section id="skills" className="py-28 px-6 relative">
-      {/* Background accent */}
       <div className="absolute inset-0 opacity-[0.02]" style={{
         background: "radial-gradient(circle at 20% 50%, hsl(160 60% 45%), transparent 50%)"
       }} />
@@ -38,7 +42,7 @@ const SkillsSection = () => {
           Tech <span className="text-gradient">Stack</span>
         </motion.h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-12">
           {skills.map((skill, i) => (
             <motion.div
               key={skill.name}
@@ -78,6 +82,61 @@ const SkillsSection = () => {
               </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Tools & Languages */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="glass border-glow rounded-xl p-5"
+          >
+            <h3 className="font-heading text-sm font-bold text-foreground mb-4">
+              <span className="text-primary">{">"}</span> Tools & IDEs
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {tools.map((tool, i) => (
+                <motion.span
+                  key={tool}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 + i * 0.05 }}
+                  className="font-heading text-xs text-muted-foreground bg-secondary/50 px-3 py-1.5 rounded-lg border border-border/50"
+                >
+                  {tool}
+                </motion.span>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="glass border-glow rounded-xl p-5"
+          >
+            <h3 className="font-heading text-sm font-bold text-foreground mb-4">
+              <span className="text-primary">{">"}</span> Languages
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {languages.map((lang, i) => (
+                <motion.span
+                  key={lang}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 + i * 0.05 }}
+                  className="font-heading text-xs text-muted-foreground bg-secondary/50 px-3 py-1.5 rounded-lg border border-border/50"
+                >
+                  {lang}
+                </motion.span>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

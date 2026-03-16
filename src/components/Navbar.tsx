@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 const navItems = [
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
+  { label: "Journey", href: "#timeline" },
   { label: "Projects", href: "#projects" },
   { label: "Contact", href: "#contact" },
 ];
@@ -25,7 +26,7 @@ const Navbar = () => {
           whileHover={{ scale: 1.05 }}
           className="font-heading text-sm font-bold text-primary"
         >
-          {"<YN />"}
+          {"<MA />"}
         </motion.a>
 
         <div className="hidden md:flex items-center gap-1">
