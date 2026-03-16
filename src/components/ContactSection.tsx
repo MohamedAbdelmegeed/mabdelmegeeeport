@@ -3,9 +3,9 @@ import { Mail, Linkedin, Github, ArrowUpRight } from "lucide-react";
 import FloatingParticles from "./FloatingParticles";
 
 const contactLinks = [
-  { icon: Mail, label: "Email", value: "your.email@example.com", href: "mailto:your.email@example.com" },
-  { icon: Linkedin, label: "LinkedIn", value: "linkedin.com/in/yourprofile", href: "https://linkedin.com/in/yourprofile" },
-  { icon: Github, label: "GitHub", value: "github.com/yourusername", href: "https://github.com/yourusername" },
+  { icon: Mail, label: "Email", value: "m.Abdelmegeed291@gmail.com", href: "mailto:m.Abdelmegeed291@gmail.com" },
+  { icon: Linkedin, label: "LinkedIn", value: "Mohamed Abdelmegeed", href: "https://www.linkedin.com/in/mohamed-abdelmegeed-" },
+  { icon: Github, label: "GitHub", value: "MohamedAbdelmegeed", href: "https://github.com/MohamedAbdelmegeed" },
 ];
 
 const ContactSection = () => {
@@ -61,11 +61,11 @@ const ContactSection = () => {
               >
                 <link.icon className="w-5 h-5 text-primary" />
               </motion.div>
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 <p className="font-heading text-sm font-semibold text-foreground">{link.label}</p>
-                <p className="text-muted-foreground text-sm">{link.value}</p>
+                <p className="text-muted-foreground text-sm truncate">{link.value}</p>
               </div>
-              <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+              <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
             </motion.a>
           ))}
         </div>

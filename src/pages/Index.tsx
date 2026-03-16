@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
 import SkillsSection from "@/components/SkillsSection";
+import TimelineSection from "@/components/TimelineSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
 
@@ -11,7 +12,6 @@ const Index = () => {
     <div className="min-h-screen bg-background noise-bg">
       <Navbar />
       <HeroSection />
-      {/* Divider */}
       <div className="max-w-4xl mx-auto px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       </div>
@@ -20,6 +20,10 @@ const Index = () => {
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       </div>
       <SkillsSection />
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      </div>
+      <TimelineSection />
       <div className="max-w-4xl mx-auto px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       </div>
@@ -35,7 +39,7 @@ const Index = () => {
           viewport={{ once: true }}
           className="font-heading text-xs text-muted-foreground"
         >
-          © {new Date().getFullYear()} Your Name · Built with passion & code
+          © {new Date().getFullYear()} Mohamed Abdelmegeed · Built with passion & code
         </motion.p>
       </footer>
     </div>

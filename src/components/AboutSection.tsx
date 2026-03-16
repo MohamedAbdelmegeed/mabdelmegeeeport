@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Code2, Database, Brain } from "lucide-react";
 
 const highlights = [
-  { icon: Code2, title: "Software Engineering", desc: "Building clean, scalable applications" },
+  { icon: Code2, title: "Software Development", desc: "Building clean, scalable applications" },
   { icon: Database, title: "Data Science", desc: "Extracting insights from complex data" },
   { icon: Brain, title: "Problem Solver", desc: "Turning ideas into elegant solutions" },
 ];
@@ -43,20 +43,19 @@ const AboutSection = () => {
             className="glass border-glow rounded-2xl p-6 md:p-10 glow-box mb-12"
           >
             <p className="text-secondary-foreground leading-relaxed mb-4 text-base md:text-lg">
-              I'm an aspiring Software Engineer and Data Scientist at the beginning of my journey.
-              I'm driven by curiosity and a passion for problem-solving through code.
+              A programmer with a deep passion for programming, problem-solving, and technology.
+              Currently building a durable foundation in languages such as C, C++, Python, and JavaScript.
             </p>
             <p className="text-secondary-foreground leading-relaxed mb-4 text-base md:text-lg">
-              Currently building my skills across multiple programming languages and frameworks,
-              I'm eager to contribute to real-world projects and grow as a developer.
+              I take pleasure in discovering how software can address real-world challenges.
+              Enthusiastic about learning, contributing to team projects, and gaining practical experience.
             </p>
             <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
-              I believe in writing clean, efficient code and continuously learning new technologies
-              to stay at the cutting edge of software development and data science.
+              Currently pursuing a Bachelor's in Computer Science & AI at Helwan National University
+              while training in Data Science through the Digital Egypt Pioneers Initiative (DEPI).
             </p>
           </motion.div>
 
-          {/* Highlights */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {highlights.map((item, i) => (
               <motion.div
