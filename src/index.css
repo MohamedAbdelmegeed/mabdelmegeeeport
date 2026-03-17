@@ -43,6 +43,40 @@
     --glow-strong: 0 0 80px hsl(160 60% 45% / 0.2), 0 0 30px hsl(160 60% 45% / 0.1);
     --glow-accent: 0 0 40px hsl(280 60% 55% / 0.15);
   }
+
+  .light {
+    --background: 0 0% 98%;
+    --foreground: 220 20% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 10%;
+
+    --primary: 160 60% 38%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 15% 92%;
+    --secondary-foreground: 220 15% 30%;
+
+    --muted: 220 15% 94%;
+    --muted-foreground: 220 10% 40%;
+
+    --accent: 280 60% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 160 60% 38%;
+
+    --glow-primary: 0 0 40px hsl(160 60% 38% / 0.1);
+    --glow-strong: 0 0 80px hsl(160 60% 38% / 0.12), 0 0 30px hsl(160 60% 38% / 0.06);
+    --glow-accent: 0 0 40px hsl(280 60% 50% / 0.1);
+  }
 }
 
 @layer base {
@@ -80,12 +114,12 @@
     @apply border border-primary/20;
   }
   .glass {
-    background: hsl(220 18% 8% / 0.6);
+    background: hsl(var(--card) / 0.6);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
   .glass-strong {
-    background: hsl(220 18% 8% / 0.8);
+    background: hsl(var(--card) / 0.8);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
   }
