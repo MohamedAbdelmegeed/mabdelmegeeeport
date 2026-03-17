@@ -103,7 +103,7 @@ const timelineItems = [
     details: "Attended a major event focused on AI, science, and innovation",
   },
 ];
-];
+
 
 const TimelineSection = () => {
   return (
