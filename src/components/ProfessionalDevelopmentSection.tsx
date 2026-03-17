@@ -3,11 +3,10 @@ import { Calendar, Star } from "lucide-react";
 import FloatingParticles from "./FloatingParticles";
 
 const events = [
-  { date: "Aug 2025", title: "Tarab Music & Singing Festival", org: "Suez University" },
+  
   { date: "Sep 2025", title: "G-Force Student Activities Forum (2nd Edition)", org: "Galala National University" },
   { date: "Sep 2025", title: "Training on Protocol, Etiquette & Workplace Formalities", org: "Leadership Candidates Program" },
   { date: "Oct 2025", title: "Future Leaders Forum", org: "Leadership Development Institute (LDI), Ministry of Higher Education" },
-  { date: "Oct 2025", title: "Training Camp – \"Students for Egypt\" Initiative", org: "Mawadda Program, LDI" },
   { date: "Nov 2025", title: "S.H.I.N.E Initiative", org: "Cairo University" },
   { date: "Nov 2025", title: "AI, Science & Innovation Celebration", org: "Helwan University (Sponsored by Roseatom)" },
 ];
