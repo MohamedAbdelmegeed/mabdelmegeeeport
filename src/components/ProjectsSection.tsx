@@ -8,7 +8,7 @@ const projects = [
     description: "Developing a web-based platform for institutional presence and information delivery for the Ministry of Higher Education, Egypt.",
     tags: ["HTML", "CSS", "JavaScript"],
     status: "Finished",
-    link: https:ldi-website-m9g4.vercel.app/index.html,
+    link: null,
   },
   {
     title: "More Projects Coming Soon",
