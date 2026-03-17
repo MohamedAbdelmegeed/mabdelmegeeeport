@@ -24,15 +24,17 @@ const Index = () => {
       <div className="max-w-4xl mx-auto px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       </div>
-      <TimelineSection />
+      <ProjectsSection />
       <div className="max-w-4xl mx-auto px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       </div>
+      
       <ProfessionalDevelopmentSection />
       <div className="max-w-4xl mx-auto px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       </div>
-      <ProjectsSection />
+
+      <TimelineSection />
       <div className="max-w-4xl mx-auto px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       </div>
