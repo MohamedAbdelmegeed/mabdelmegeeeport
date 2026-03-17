@@ -95,7 +95,7 @@ const ProfessionalDevelopmentSection = () => {
           </h3>
           <div className="space-y-3">
             {[
-              "Leadership Volunteer Support Member – Leadership Development Institute (LDI), Ministry of Higher Education",
+              "Leadership Support Member – Leadership Development Institute (LDI), Ministry of Higher Education",
               "Faculty Leader for Level 2 – Computer Science – HNU",
               "Vice Head, Art Committee – Faculty Student Union",
             ].map((activity, i) => (
