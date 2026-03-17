@@ -114,12 +114,12 @@
     @apply border border-primary/20;
   }
   .glass {
-    background: hsl(220 18% 8% / 0.6);
+    background: hsl(var(--card) / 0.6);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
   .glass-strong {
-    background: hsl(220 18% 8% / 0.8);
+    background: hsl(var(--card) / 0.8);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
   }
