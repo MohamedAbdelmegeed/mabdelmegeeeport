@@ -112,34 +112,6 @@ const TimelineSection = () => {
           </div>
         </div>
 
-        {/* Activities */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="mt-16"
-        >
-          <h3 className="font-heading text-lg font-bold text-foreground mb-6">
-            <span className="text-primary">{">"}</span> Activities & Leadership
-          </h3>
-          <div className="grid grid-cols-1 gap-3">
-            {activities.map((activity, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.6 + i * 0.1 }}
-                whileHover={{ x: 4 }}
-                className="glass border-glow rounded-lg p-4 flex items-center gap-3"
-              >
-                <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
-                <p className="text-muted-foreground text-sm">{activity}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
