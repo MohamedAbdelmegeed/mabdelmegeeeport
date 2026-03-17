@@ -44,7 +44,7 @@ const activities = [
   
 ];
 
-const timelineItems = [
+const timelineItemss = [
   {
     type: "education",
     icon: GraduationCap,
@@ -76,6 +76,16 @@ const timelineItems = [
     org: "Royal Tot's Camp",
     date: "2023 – 2024",
     details: "Led mentoring programs and guided younger participants",
+  },
+
+  
+  {
+    type: "education",
+    icon: GraduationCap,
+    title: "B.Sc. Computer Science & AI",
+    org: "Helwan National University",
+    date: "Sep 2024 – Present",
+    details: "Level 2 · GPA: 3.26 · Cairo, Egypt",
   },
 ];
 
