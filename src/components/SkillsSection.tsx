@@ -2,14 +2,14 @@ import { motion } from "framer-motion";
 
 const skills = [
   { name: "Python", level: 85, color: "from-[hsl(160,60%,45%)] to-[hsl(180,50%,55%)]" },
-  { name: "C", level: 70, color: "from-[hsl(200,60%,50%)] to-[hsl(220,50%,55%)]" },
+  { name: "C", level: 75, color: "from-[hsl(200,60%,50%)] to-[hsl(220,50%,55%)]" },
   { name: "C++", level: 70, color: "from-[hsl(200,60%,50%)] to-[hsl(220,50%,55%)]" },
-  { name: "Java", level: 65, color: "from-[hsl(30,80%,50%)] to-[hsl(15,80%,55%)]" },
+  { name: "Java", level: 75, color: "from-[hsl(30,80%,50%)] to-[hsl(15,80%,55%)]" },
   { name: "JavaScript", level: 80, color: "from-[hsl(50,90%,50%)] to-[hsl(40,80%,55%)]" },
   { name: "HTML", level: 90, color: "from-[hsl(15,80%,55%)] to-[hsl(25,80%,50%)]" },
   { name: "CSS", level: 85, color: "from-[hsl(210,80%,55%)] to-[hsl(230,70%,55%)]" },
-  { name: "SQL", level: 60, color: "from-[hsl(280,60%,55%)] to-[hsl(300,50%,50%)]" },
-  { name: "React", level: 60, color: "from-[hsl(190,80%,50%)] to-[hsl(200,70%,55%)]" },
+  { name: "SQL", level: 65, color: "from-[hsl(280,60%,55%)] to-[hsl(300,50%,50%)]" },
+  { name: "React", level: 50, color: "from-[hsl(190,80%,50%)] to-[hsl(200,70%,55%)]" },
   { name: "Next.js", level: 40, color: "from-[hsl(0,0%,60%)] to-[hsl(0,0%,40%)]" },
 ];
 
