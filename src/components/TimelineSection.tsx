@@ -43,67 +43,6 @@ const activities = [
   "Vice Head, Art Committee – Faculty Student Union"
   
 ];
-// Events & Professional Development
-const timelineItems = [
-   
-  {
-    type: "event",
-    icon: Calendar,
-    title: "Tarab Music & Singing Festival",
-    org: "Suez University",
-    date: "Aug 2025",
-    details: "Participated in a large-scale cultural and musical university event",
-  },
-  {
-    type: "event",
-    icon: Calendar,
-    title: "G-Force Student Activities Forum (2nd Edition)",
-    org: "Galala National University",
-    date: "Sep 2025",
-    details: "Engaged in student activities forum and networking events",
-  },
-  {
-    type: "training",
-    icon: Award,
-    title: "Protocol & Workplace Etiquette Training",
-    org: "Leadership Candidates Program",
-    date: "Sep 2025",
-    details: "Completed training on professional protocol and formal workplace conduct",
-  },
-  {
-    type: "event",
-    icon: Calendar,
-    title: "Future Leaders Forum",
-    org: "Leadership Development Institute (LDI)",
-    date: "Oct 2025",
-    details: "Selected participant in a national-level leadership development forum",
-  },
-  {
-    type: "training",
-    icon: Award,
-    title: "Students for Egypt Training Camp",
-    org: "Mawadda Program – LDI",
-    date: "Oct 2025",
-    details: "Participated in leadership and social awareness training camp",
-  },
-  {
-    type: "event",
-    icon: Calendar,
-    title: "S.H.I.N.E Initiative",
-    org: "Cairo University",
-    date: "Nov 2025",
-    details: "Participated in a high-level international initiative event",
-  },
-  {
-    type: "event",
-    icon: Calendar,
-    title: "AI, Science & Innovation Celebration",
-    org: "Helwan University (Sponsored by Roseatom)",
-    date: "Nov 2025",
-    details: "Attended a major event focused on AI, science, and innovation",
-  },
-];
-];
 
 const TimelineSection = () => {
   return (
