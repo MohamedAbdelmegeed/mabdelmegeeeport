@@ -11,12 +11,7 @@ const events = [
   { date: "Nov 2025", title: "S.H.I.N.E Initiative", org: "Cairo University" },
   { date: "Nov 2025", title: "AI, Science & Innovation Celebration", org: "Helwan University (Sponsored by Roseatom)" },
 ];
- const activities = [
-  "Leadership Volunteer Support Member – Leadership Development Institute (LDI), Ministry of Higher Education",
-  "Faculty Leader for Level 2 – Computer Science – HNU",
-  "Vice Head, Art Committee – Faculty Student Union"
-  
-];
+
 const ProfessionalDevelopmentSection = () => {
   return (
     <section id="development" className="py-28 px-6 relative">
