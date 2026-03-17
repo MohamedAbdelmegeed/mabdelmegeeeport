@@ -44,6 +44,41 @@ const activities = [
   
 ];
 
+const timelineItems = [
+  {
+    type: "education",
+    icon: GraduationCap,
+    title: "B.Sc. Computer Science & AI",
+    org: "Helwan National University",
+    date: "Sep 2024 – Present",
+    details: "Level 2 · GPA: 3.26 · Cairo, Egypt",
+  },
+  {
+    type: "training",
+    icon: Award,
+    title: "Data Science Trainee",
+    org: "Digital Egypt Pioneers Initiative (DEPI)",
+    date: "Dec 2025 – Present",
+    details: "Intensive data science program by the Egyptian government",
+  },
+  {
+    type: "experience",
+    icon: Briefcase,
+    title: "Customer Service Representative",
+    org: "Concentrix (Verizon Account)",
+    date: "Jun 2025 – Oct 2025",
+    details: "Handled customer inquiries and support for Verizon services",
+  },
+  {
+    type: "experience",
+    icon: Briefcase,
+    title: "Senior Mentor",
+    org: "Royal Tot's Camp",
+    date: "2023 – 2024",
+    details: "Led mentoring programs and guided younger participants",
+  },
+];
+
 const TimelineSection = () => {
   return (
     <section id="timeline" className="py-28 px-6 relative">
