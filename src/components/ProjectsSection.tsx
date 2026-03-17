@@ -17,13 +17,6 @@ const projects = [
     status: "Planned",
     link: null,
   },
-   {
-    title: "Manga",
-    description: "Developing a web-based platform for institutional presence and information delivery for the Ministry of Higher Education, Egypt.",
-    tags: ["HTML", "CSS", "JavaScript"],
-    status: "In Progress",
-    link: null,
-  }
 ];
 
 const ProjectsSection = () => {
