@@ -82,6 +82,39 @@ const ProfessionalDevelopmentSection = () => {
             ))}
           </div>
         </div>
+
+        {/* Activities & Leadership */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="mt-16"
+        >
+          <h3 className="font-heading text-xl md:text-2xl font-bold mb-6">
+            Activities & <span className="text-gradient">Leadership</span>
+          </h3>
+          <div className="space-y-3">
+            {[
+              "Leadership Volunteer Support Member – Leadership Development Institute (LDI), Ministry of Higher Education",
+              "Faculty Leader for Level 2 – Computer Science – HNU",
+              "Vice Head, Art Committee – Faculty Student Union",
+            ].map((activity, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 + i * 0.1 }}
+                whileHover={{ x: 6 }}
+                className="glass border-glow rounded-xl p-4 flex items-center gap-3 cursor-default"
+              >
+                <Star className="w-4 h-4 text-primary shrink-0" />
+                <p className="text-sm text-foreground">{activity}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
