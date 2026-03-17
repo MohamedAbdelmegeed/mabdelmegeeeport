@@ -20,6 +20,10 @@ const Index = () => {
       <div className="max-w-4xl mx-auto px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       </div>
+           <TimelineSection />
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      </div>
       <SkillsSection />
       <div className="max-w-4xl mx-auto px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
@@ -30,10 +34,7 @@ const Index = () => {
       </div>
       
 
-      <TimelineSection />
-      <div className="max-w-4xl mx-auto px-6">
-        <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-      </div>
+ 
       <ProfessionalDevelopmentSection />
       <div className="max-w-4xl mx-auto px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
