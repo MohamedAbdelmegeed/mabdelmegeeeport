@@ -36,6 +36,12 @@ const timelineItems = [
     details: "Led mentoring programs and guided younger participants",
   },
 ];
+ const activities = [
+  "Leadership Volunteer Support Member – Leadership Development Institute (LDI), Ministry of Higher Education",
+  "Faculty Leader for Level 2 – Computer Science – HNU",
+  "Vice Head, Art Committee – Faculty Student Union"
+  
+];
 
 
 
