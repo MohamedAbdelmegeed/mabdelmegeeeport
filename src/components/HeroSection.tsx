@@ -3,16 +3,17 @@ import { useRef } from "react";
 import { Download } from "lucide-react";
 import profilePhoto from "@/assets/profile-photo.jpeg";
 import FloatingParticles from "./FloatingParticles";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const HeroSection = () => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const { t } = useLanguage();
 
   return (
     <section ref={ref} className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden pt-14">
-      {/* Animated gradient orbs */}
       <motion.div
         className="absolute w-[500px] h-[500px] rounded-full opacity-[0.07]"
         style={{ background: "radial-gradient(circle, hsl(160 60% 45%), transparent 70%)", top: "10%", right: "-10%" }}
@@ -26,7 +27,6 @@ const HeroSection = () => {
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Grid */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: 'linear-gradient(hsl(160 60% 45%) 1px, transparent 1px), linear-gradient(90deg, hsl(160 60% 45%) 1px, transparent 1px)',
         backgroundSize: '60px 60px'
@@ -35,7 +35,6 @@ const HeroSection = () => {
       <FloatingParticles count={15} />
 
       <motion.div style={{ y, opacity }} className="max-w-3xl w-full relative z-10 flex flex-col items-center text-center">
-        {/* Profile Photo */}
         <motion.div
           initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -43,7 +42,7 @@ const HeroSection = () => {
           className="mb-8 relative group"
         >
           <div className="w-40 h-40 md:w-52 md:h-52 rounded-full overflow-hidden border-2 border-primary/40 glow-box-strong transition-shadow duration-500 group-hover:shadow-[0_0_100px_hsl(160_60%_45%/0.3)]">
-            <img src={profilePhoto} alt="Mohamed Abdelmegeed" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <img src={profilePhoto} alt={t.hero.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
           </div>
           <motion.div
             className="absolute inset-0 rounded-full border border-primary/20"
@@ -68,9 +67,7 @@ const HeroSection = () => {
           transition={{ delay: 0.3 }}
           className="font-heading text-primary text-sm md:text-base mb-4 tracking-wider"
         >
-          <motion.span animate={{ opacity: [0, 1] }} transition={{ duration: 0.5, delay: 0.5 }}>{">"}</motion.span>
-          <motion.span animate={{ opacity: [0, 1] }} transition={{ duration: 0.5, delay: 0.7 }}> hello</motion.span>
-          <motion.span animate={{ opacity: [0, 1] }} transition={{ duration: 0.5, delay: 0.9 }}>_world</motion.span>
+          {t.hero.greeting}
         </motion.p>
 
         <motion.h1
@@ -79,7 +76,7 @@ const HeroSection = () => {
           transition={{ delay: 0.5, duration: 0.8, type: "spring" }}
           className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
         >
-          I'm <span className="text-gradient">Mohamed Abdelmegeed</span>
+          {t.hero.intro}<span className="text-gradient">{t.hero.name}</span>
           <motion.span
             className="text-primary inline-block"
             animate={{ opacity: [1, 0] }}
@@ -93,7 +90,7 @@ const HeroSection = () => {
           transition={{ delay: 0.7 }}
           className="text-muted-foreground text-lg md:text-xl max-w-xl leading-relaxed mb-10"
         >
-          Software Developer & Data Scientist. Passionate about building elegant solutions and extracting insights from data.
+          {t.hero.subtitle}
         </motion.p>
 
         <motion.div
@@ -108,7 +105,7 @@ const HeroSection = () => {
             whileTap={{ scale: 0.95 }}
             className="font-heading text-sm px-8 py-3.5 bg-primary text-primary-foreground rounded-lg glow-box transition-all"
           >
-            Get in touch
+            {t.hero.cta}
           </motion.a>
           <motion.a
             href="/Mohamed_Abdelmegeed_Resume.pdf"
@@ -118,11 +115,10 @@ const HeroSection = () => {
             className="font-heading text-sm px-8 py-3.5 border-glow rounded-lg text-foreground glass transition-all inline-flex items-center justify-center gap-2"
           >
             <Download className="w-4 h-4" />
-            Download CV
+            {t.hero.cv}
           </motion.a>
         </motion.div>
 
-        {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

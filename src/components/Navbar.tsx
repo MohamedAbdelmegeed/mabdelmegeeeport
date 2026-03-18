@@ -2,18 +2,21 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
-
-const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Journey", href: "#timeline" },
-  { label: "Development", href: "#development" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
-];
+import LanguageToggle from "./LanguageToggle";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const { t } = useLanguage();
+
+  const navItems = [
+    { label: t.nav.about, href: "#about" },
+    { label: t.nav.skills, href: "#skills" },
+    { label: t.nav.journey, href: "#timeline" },
+    { label: t.nav.development, href: "#development" },
+    { label: t.nav.projects, href: "#projects" },
+    { label: t.nav.contact, href: "#contact" },
+  ];
 
   return (
     <motion.nav
@@ -34,7 +37,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-1">
           {navItems.map((item, i) => (
             <motion.a
-              key={item.label}
+              key={item.href}
               href={item.href}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -45,10 +48,12 @@ const Navbar = () => {
               {item.label}
             </motion.a>
           ))}
+          <LanguageToggle />
           <ThemeToggle />
         </div>
 
         <div className="flex items-center gap-1 md:hidden">
+          <LanguageToggle />
           <ThemeToggle />
           <button onClick={() => setOpen(!open)} className="text-foreground p-2">
             {open ? <X size={20} /> : <Menu size={20} />}
@@ -68,7 +73,7 @@ const Navbar = () => {
             <div className="px-6 py-4 space-y-1">
               {navItems.map((item, i) => (
                 <motion.a
-                  key={item.label}
+                  key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
                   initial={{ x: -20, opacity: 0 }}

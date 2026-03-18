@@ -1,25 +1,22 @@
 import { motion } from "framer-motion";
 import { ExternalLink, Folder, ArrowUpRight } from "lucide-react";
 import FloatingParticles from "./FloatingParticles";
+import { useLanguage } from "@/i18n/LanguageContext";
 
-const projects = [
+const projectMeta = [
   {
-    title: "Leadership Institute (LDI) Website",
-    description: "Developing a web-based platform for institutional presence and information delivery for the Ministry of Higher Education, Egypt.",
     tags: ["HTML", "CSS", "JavaScript"],
-    status: "Finished",
     link: "https://ldi-website-m9g4.vercel.app/index.html",
   },
   {
-    title: "More Projects Coming Soon",
-    description: "Currently working on exciting projects in data science and web development. Stay tuned!",
     tags: ["Python", "React", "Next.js"],
-    status: "Planned",
     link: null,
   },
 ];
 
 const ProjectsSection = () => {
+  const { t } = useLanguage();
+
   return (
     <section id="projects" className="py-28 px-6 relative">
       <FloatingParticles count={10} />
@@ -31,7 +28,7 @@ const ProjectsSection = () => {
           viewport={{ once: true }}
           className="font-heading text-primary text-sm mb-2 tracking-wider"
         >
-          {"// projects"}
+          {t.projects.tag}
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -40,7 +37,7 @@ const ProjectsSection = () => {
           transition={{ delay: 0.1 }}
           className="font-heading text-3xl md:text-5xl font-bold mb-4"
         >
-          Featured <span className="text-gradient">Work</span>
+          {t.projects.title}<span className="text-gradient">{t.projects.titleHighlight}</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 15 }}
@@ -49,60 +46,59 @@ const ProjectsSection = () => {
           transition={{ delay: 0.2 }}
           className="text-muted-foreground mb-12 max-w-lg text-base md:text-lg"
         >
-          A selection of projects I've been working on.
+          {t.projects.subtitle}
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {projects.map((project, i) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 + i * 0.15 }}
-              whileHover={{ y: -5, boxShadow: "0 0 60px hsl(160 60% 45% / 0.1)" }}
-              className="glass border-glow rounded-xl p-6 group cursor-default relative overflow-hidden"
-            >
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
-                background: "radial-gradient(circle at 50% 0%, hsl(160 60% 45% / 0.05), transparent 70%)"
-              }} />
+          {t.projects.items.map((project, i) => {
+            const meta = projectMeta[i];
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 + i * 0.15 }}
+                whileHover={{ y: -5, boxShadow: "0 0 60px hsl(160 60% 45% / 0.1)" }}
+                className="glass border-glow rounded-xl p-6 group cursor-default relative overflow-hidden"
+              >
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                  background: "radial-gradient(circle at 50% 0%, hsl(160 60% 45% / 0.05), transparent 70%)"
+                }} />
 
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-4">
-                  <Folder className="w-8 h-8 text-primary/60 group-hover:text-primary transition-colors" />
-                  <div className="flex items-center gap-2">
-                    <span className={`font-heading text-xs px-2 py-0.5 rounded-full ${
-                      project.status === "In Progress" 
-                        ? "bg-primary/10 text-primary border border-primary/20" 
-                        : "bg-accent/10 text-accent border border-accent/20"
-                    }`}>
-                      {project.status}
-                    </span>
-                    {project.link && (
-                      <a href={project.link} target="_blank" rel="noopener noreferrer">
-                        <ArrowUpRight className="w-4 h-4 text-muted-foreground hover:text-primary transition-colors" />
-                      </a>
-                    )}
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <Folder className="w-8 h-8 text-primary/60 group-hover:text-primary transition-colors" />
+                    <div className="flex items-center gap-2">
+                      <span className="font-heading text-xs px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20">
+                        {project.status}
+                      </span>
+                      {meta?.link && (
+                        <a href={meta.link} target="_blank" rel="noopener noreferrer">
+                          <ArrowUpRight className="w-4 h-4 text-muted-foreground hover:text-primary transition-colors" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  <h3 className="font-heading text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
+                    {project.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-2">
+                    {meta?.tags.map(tag => (
+                      <span key={tag} className="font-heading text-xs text-muted-foreground bg-secondary/50 px-2 py-1 rounded">
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
-
-                <h3 className="font-heading text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map(tag => (
-                    <span key={tag} className="font-heading text-xs text-muted-foreground bg-secondary/50 px-2 py-1 rounded">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
