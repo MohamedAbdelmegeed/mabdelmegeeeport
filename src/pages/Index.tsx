@@ -7,8 +7,11 @@ import ProjectsSection from "@/components/ProjectsSection";
 import ProfessionalDevelopmentSection from "@/components/ProfessionalDevelopmentSection";
 import TimelineSection from "@/components/TimelineSection";
 import ContactSection from "@/components/ContactSection";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const Index = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen bg-background noise-bg">
       <Navbar />
@@ -20,7 +23,7 @@ const Index = () => {
       <div className="max-w-4xl mx-auto px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       </div>
-           <TimelineSection />
+      <TimelineSection />
       <div className="max-w-4xl mx-auto px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       </div>
@@ -32,9 +35,6 @@ const Index = () => {
       <div className="max-w-4xl mx-auto px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       </div>
-      
-
- 
       <ProfessionalDevelopmentSection />
       <div className="max-w-4xl mx-auto px-6">
         <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
@@ -47,7 +47,7 @@ const Index = () => {
           viewport={{ once: true }}
           className="font-heading text-xs text-muted-foreground"
         >
-          © {new Date().getFullYear()} Mohamed Abdelmegeed · Built with passion & code
+          © {new Date().getFullYear()} {t.footer.text}
         </motion.p>
       </footer>
     </div>

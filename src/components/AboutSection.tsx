@@ -1,13 +1,16 @@
 import { motion } from "framer-motion";
 import { Code2, Database, Brain } from "lucide-react";
-
-const highlights = [
-  { icon: Code2, title: "Software Development", desc: "Building clean, scalable applications" },
-  { icon: Database, title: "Data Science", desc: "Extracting insights from complex data" },
-  { icon: Brain, title: "Problem Solver", desc: "Turning ideas into elegant solutions" },
-];
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const AboutSection = () => {
+  const { t } = useLanguage();
+
+  const highlights = [
+    { icon: Code2, title: t.about.h1Title, desc: t.about.h1Desc },
+    { icon: Database, title: t.about.h2Title, desc: t.about.h2Desc },
+    { icon: Brain, title: t.about.h3Title, desc: t.about.h3Desc },
+  ];
+
   return (
     <section id="about" className="py-28 px-6 relative">
       <div className="max-w-4xl mx-auto">
@@ -23,7 +26,7 @@ const AboutSection = () => {
             viewport={{ once: true }}
             className="font-heading text-primary text-sm mb-2 tracking-wider"
           >
-            {"// about"}
+            {t.about.tag}
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -32,7 +35,7 @@ const AboutSection = () => {
             transition={{ delay: 0.1 }}
             className="font-heading text-3xl md:text-5xl font-bold mb-12"
           >
-            About <span className="text-gradient">Me</span>
+            {t.about.title}<span className="text-gradient">{t.about.titleHighlight}</span>
           </motion.h2>
 
           <motion.div
@@ -43,16 +46,13 @@ const AboutSection = () => {
             className="glass border-glow rounded-2xl p-6 md:p-10 glow-box mb-12"
           >
             <p className="text-secondary-foreground leading-relaxed mb-4 text-base md:text-lg">
-              A programmer with a deep passion for programming, problem-solving, and technology.
-              Currently building a durable foundation in languages such as C, C++, Python, and JavaScript.
+              {t.about.p1}
             </p>
             <p className="text-secondary-foreground leading-relaxed mb-4 text-base md:text-lg">
-              I take pleasure in discovering how software can address real-world challenges.
-              Enthusiastic about learning, contributing to team projects, and gaining practical experience.
+              {t.about.p2}
             </p>
             <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
-              Currently pursuing a Bachelor's in Computer Science & AI at Helwan National University
-              while training in Data Science through the Digital Egypt Pioneers Initiative (DEPI).
+              {t.about.p3}
             </p>
           </motion.div>
 

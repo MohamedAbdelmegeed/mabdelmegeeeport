@@ -1,14 +1,19 @@
 import { motion } from "framer-motion";
 import { Mail, Linkedin, Github, ArrowUpRight } from "lucide-react";
 import FloatingParticles from "./FloatingParticles";
+import { useLanguage } from "@/i18n/LanguageContext";
 
-const contactLinks = [
-  { icon: Mail, label: "Email", value: "m.Abdelmegeed291@gmail.com", href: "mailto:m.Abdelmegeed291@gmail.com" },
-  { icon: Linkedin, label: "LinkedIn", value: "Mohamed Abdelmegeed", href: "https://www.linkedin.com/in/mohamed-abdelmegeed-" },
-  { icon: Github, label: "GitHub", value: "MohamedAbdelmegeed", href: "https://github.com/MohamedAbdelmegeed" },
+const contactMeta = [
+  { icon: Mail, value: "m.Abdelmegeed291@gmail.com", href: "mailto:m.Abdelmegeed291@gmail.com" },
+  { icon: Linkedin, value: "Mohamed Abdelmegeed", href: "https://www.linkedin.com/in/mohamed-abdelmegeed-" },
+  { icon: Github, value: "MohamedAbdelmegeed", href: "https://github.com/MohamedAbdelmegeed" },
 ];
 
 const ContactSection = () => {
+  const { t } = useLanguage();
+
+  const labels = [t.contact.email, t.contact.linkedin, t.contact.github];
+
   return (
     <section id="contact" className="py-28 px-6 relative">
       <FloatingParticles count={8} />
@@ -20,7 +25,7 @@ const ContactSection = () => {
           viewport={{ once: true }}
           className="font-heading text-primary text-sm mb-2 tracking-wider"
         >
-          {"// contact"}
+          {t.contact.tag}
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -29,7 +34,7 @@ const ContactSection = () => {
           transition={{ delay: 0.1 }}
           className="font-heading text-3xl md:text-5xl font-bold mb-4"
         >
-          Let's <span className="text-gradient">Connect</span>
+          {t.contact.title}<span className="text-gradient">{t.contact.titleHighlight}</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 15 }}
@@ -38,13 +43,13 @@ const ContactSection = () => {
           transition={{ delay: 0.2 }}
           className="text-muted-foreground mb-12 max-w-lg text-base md:text-lg"
         >
-          I'm always open to new opportunities, collaborations, and interesting conversations.
+          {t.contact.subtitle}
         </motion.p>
 
         <div className="space-y-4">
-          {contactLinks.map((link, i) => (
+          {contactMeta.map((link, i) => (
             <motion.a
-              key={link.label}
+              key={i}
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
@@ -62,7 +67,7 @@ const ContactSection = () => {
                 <link.icon className="w-5 h-5 text-primary" />
               </motion.div>
               <div className="flex-1 min-w-0">
-                <p className="font-heading text-sm font-semibold text-foreground">{link.label}</p>
+                <p className="font-heading text-sm font-semibold text-foreground">{labels[i]}</p>
                 <p className="text-muted-foreground text-sm truncate">{link.value}</p>
               </div>
               <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />

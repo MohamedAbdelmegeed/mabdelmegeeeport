@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const skills = [
   { name: "Python", level: 85, color: "from-[hsl(160,60%,45%)] to-[hsl(180,50%,55%)]" },
@@ -17,6 +18,8 @@ const tools = ["VS Code", "Visual Studio", "PyCharm", "IntelliJ", "CLion", "SSMS
 const languages = ["English (C1)", "German (A2)"];
 
 const SkillsSection = () => {
+  const { t } = useLanguage();
+
   return (
     <section id="skills" className="py-28 px-6 relative">
       <div className="absolute inset-0 opacity-[0.02]" style={{
@@ -30,7 +33,7 @@ const SkillsSection = () => {
           viewport={{ once: true }}
           className="font-heading text-primary text-sm mb-2 tracking-wider"
         >
-          {"// skills"}
+          {t.skills.tag}
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -39,7 +42,7 @@ const SkillsSection = () => {
           transition={{ delay: 0.1 }}
           className="font-heading text-3xl md:text-5xl font-bold mb-12"
         >
-          Tech <span className="text-gradient">Stack</span>
+          {t.skills.title}<span className="text-gradient">{t.skills.titleHighlight}</span>
         </motion.h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-12">
@@ -84,7 +87,6 @@ const SkillsSection = () => {
           ))}
         </div>
 
-        {/* Tools & Languages */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -94,7 +96,7 @@ const SkillsSection = () => {
             className="glass border-glow rounded-xl p-5"
           >
             <h3 className="font-heading text-sm font-bold text-foreground mb-4">
-              <span className="text-primary">{">"}</span> Tools & IDEs
+              <span className="text-primary">{">"}</span> {t.skills.toolsTitle}
             </h3>
             <div className="flex flex-wrap gap-2">
               {tools.map((tool, i) => (
@@ -120,7 +122,7 @@ const SkillsSection = () => {
             className="glass border-glow rounded-xl p-5"
           >
             <h3 className="font-heading text-sm font-bold text-foreground mb-4">
-              <span className="text-primary">{">"}</span> Languages
+              <span className="text-primary">{">"}</span> {t.skills.languagesTitle}
             </h3>
             <div className="flex flex-wrap gap-2">
               {languages.map((lang, i) => (
