@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { Calendar, Star } from "lucide-react";
-import FloatingParticles from "./FloatingParticles";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { lazy, Suspense } from "react";
 
 const ProfessionalDevelopmentSection = () => {
   const { t } = useLanguage();
