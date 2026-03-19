@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { ExternalLink, Folder, ArrowUpRight } from "lucide-react";
-import FloatingParticles from "./FloatingParticles";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { lazy, Suspense } from "react";
 
 const projectMeta = [
   {
