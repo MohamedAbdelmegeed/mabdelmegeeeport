@@ -15,12 +15,15 @@ const projectMeta = [
   },
 ];
 
+const FloatingParticles = lazy(() => import("./FloatingParticles"));
+
 const ProjectsSection = () => {
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
 
   return (
     <section id="projects" className="py-28 px-6 relative">
-      <FloatingParticles count={10} />
+      {!isMobile && <Suspense fallback={null}><FloatingParticles count={6} /></Suspense>}
 
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.p

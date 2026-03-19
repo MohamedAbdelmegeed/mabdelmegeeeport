@@ -10,14 +10,17 @@ const contactMeta = [
   { icon: Github, value: "MohamedAbdelmegeed", href: "https://github.com/MohamedAbdelmegeed" },
 ];
 
+const FloatingParticles = lazy(() => import("./FloatingParticles"));
+
 const ContactSection = () => {
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
 
   const labels = [t.contact.email, t.contact.linkedin, t.contact.github];
 
   return (
     <section id="contact" className="py-28 px-6 relative">
-      <FloatingParticles count={8} />
+      {!isMobile && <Suspense fallback={null}><FloatingParticles count={5} /></Suspense>}
 
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.p
