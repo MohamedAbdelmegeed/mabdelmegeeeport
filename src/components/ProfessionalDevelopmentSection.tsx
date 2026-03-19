@@ -1,14 +1,18 @@
 import { motion } from "framer-motion";
 import { Calendar, Star } from "lucide-react";
-import FloatingParticles from "./FloatingParticles";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { lazy, Suspense } from "react";
+
+const FloatingParticles = lazy(() => import("./FloatingParticles"));
 
 const ProfessionalDevelopmentSection = () => {
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
 
   return (
     <section id="development" className="py-28 px-6 relative">
-      <FloatingParticles count={5} />
+      {!isMobile && <Suspense fallback={null}><FloatingParticles count={3} /></Suspense>}
 
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.p

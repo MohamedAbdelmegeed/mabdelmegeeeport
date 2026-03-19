@@ -1,16 +1,19 @@
 import { motion } from "framer-motion";
 import { GraduationCap, Briefcase, Award } from "lucide-react";
-import FloatingParticles from "./FloatingParticles";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { lazy, Suspense } from "react";
 
+const FloatingParticles = lazy(() => import("./FloatingParticles"));
 const icons = [GraduationCap, Award, Briefcase, Briefcase];
 
 const TimelineSection = () => {
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
 
   return (
     <section id="timeline" className="py-28 px-6 relative">
-      <FloatingParticles count={6} />
+      {!isMobile && <Suspense fallback={null}><FloatingParticles count={4} /></Suspense>}
 
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.p
