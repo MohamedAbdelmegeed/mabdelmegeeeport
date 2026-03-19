@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState, memo } from "react";
 
-const Particle = ({ delay, x, y, size }: { delay: number; x: number; y: number; size: number }) => (
+const Particle = memo(({ delay, x, y, size }: { delay: number; x: number; y: number; size: number }) => (
   <motion.div
     className="absolute rounded-full bg-primary/20"
-    style={{ width: size, height: size, left: `${x}%`, top: `${y}%` }}
+    style={{ width: size, height: size, left: `${x}%`, top: `${y}%`, willChange: "transform, opacity" }}
     animate={{
       y: [0, -30, 0],
       opacity: [0, 0.6, 0],
@@ -17,9 +17,11 @@ const Particle = ({ delay, x, y, size }: { delay: number; x: number; y: number; 
       ease: "easeInOut",
     }}
   />
-);
+));
 
-const FloatingParticles = ({ count = 20 }: { count?: number }) => {
+Particle.displayName = "Particle";
+
+const FloatingParticles = memo(({ count = 20 }: { count?: number }) => {
   const [particles] = useState(() =>
     Array.from({ length: count }, (_, i) => ({
       id: i,
@@ -37,6 +39,8 @@ const FloatingParticles = ({ count = 20 }: { count?: number }) => {
       ))}
     </div>
   );
-};
+});
+
+FloatingParticles.displayName = "FloatingParticles";
 
 export default FloatingParticles;

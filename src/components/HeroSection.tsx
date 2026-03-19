@@ -1,9 +1,12 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, lazy, Suspense } from "react";
 import { Download } from "lucide-react";
 import profilePhoto from "@/assets/profile-photo.jpeg";
-import FloatingParticles from "./FloatingParticles";
+import TypingAnimation from "./TypingAnimation";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useIsMobile } from "@/hooks/use-mobile";
+
+const FloatingParticles = lazy(() => import("./FloatingParticles"));
 
 const HeroSection = () => {
   const ref = useRef(null);
@@ -11,49 +14,66 @@ const HeroSection = () => {
   const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
 
   return (
     <section ref={ref} className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden pt-14">
-      <motion.div
-        className="absolute w-[500px] h-[500px] rounded-full opacity-[0.07]"
-        style={{ background: "radial-gradient(circle, hsl(160 60% 45%), transparent 70%)", top: "10%", right: "-10%" }}
-        animate={{ scale: [1, 1.2, 1], x: [0, 30, 0], y: [0, -20, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute w-[400px] h-[400px] rounded-full opacity-[0.05]"
-        style={{ background: "radial-gradient(circle, hsl(280 60% 55%), transparent 70%)", bottom: "10%", left: "-10%" }}
-        animate={{ scale: [1, 1.3, 1], x: [0, -20, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
+      {!isMobile && (
+        <>
+          <motion.div
+            className="absolute w-[500px] h-[500px] rounded-full opacity-[0.07]"
+            style={{ background: "radial-gradient(circle, hsl(160 60% 45%), transparent 70%)", top: "10%", right: "-10%" }}
+            animate={{ scale: [1, 1.2, 1], x: [0, 30, 0], y: [0, -20, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute w-[400px] h-[400px] rounded-full opacity-[0.05]"
+            style={{ background: "radial-gradient(circle, hsl(280 60% 55%), transparent 70%)", bottom: "10%", left: "-10%" }}
+            animate={{ scale: [1, 1.3, 1], x: [0, -20, 0] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: 'linear-gradient(hsl(160 60% 45%) 1px, transparent 1px), linear-gradient(90deg, hsl(160 60% 45%) 1px, transparent 1px)',
+            backgroundSize: '60px 60px'
+          }} />
+        </>
+      )}
 
-      <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: 'linear-gradient(hsl(160 60% 45%) 1px, transparent 1px), linear-gradient(90deg, hsl(160 60% 45%) 1px, transparent 1px)',
-        backgroundSize: '60px 60px'
-      }} />
+      <Suspense fallback={null}>
+        <FloatingParticles count={isMobile ? 6 : 15} />
+      </Suspense>
 
-      <FloatingParticles count={15} />
-
-      <motion.div style={{ y, opacity }} className="max-w-3xl w-full relative z-10 flex flex-col items-center text-center">
+      <motion.div style={isMobile ? { opacity } : { y, opacity }} className="max-w-3xl w-full relative z-10 flex flex-col items-center text-center">
         <motion.div
-          initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
           className="mb-8 relative group"
         >
           <div className="w-40 h-40 md:w-52 md:h-52 rounded-full overflow-hidden border-2 border-primary/40 glow-box-strong transition-shadow duration-500 group-hover:shadow-[0_0_100px_hsl(160_60%_45%/0.3)]">
-            <img src={profilePhoto} alt={t.hero.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <img
+              src={profilePhoto}
+              alt={t.hero.name}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              loading="eager"
+              width={208}
+              height={208}
+            />
           </div>
-          <motion.div
-            className="absolute inset-0 rounded-full border border-primary/20"
-            animate={{ scale: [1.15, 1.25, 1.15], opacity: [0.3, 0.1, 0.3] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute inset-0 rounded-full border border-primary/10"
-            animate={{ scale: [1.3, 1.4, 1.3], opacity: [0.2, 0.05, 0.2] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          />
+          {!isMobile && (
+            <>
+              <motion.div
+                className="absolute inset-0 rounded-full border border-primary/20"
+                animate={{ scale: [1.15, 1.25, 1.15], opacity: [0.3, 0.1, 0.3] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.div
+                className="absolute inset-0 rounded-full border border-primary/10"
+                animate={{ scale: [1.3, 1.4, 1.3], opacity: [0.2, 0.05, 0.2] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </>
+          )}
           <motion.div
             className="absolute bottom-2 right-2 md:bottom-3 md:right-3 w-4 h-4 rounded-full bg-primary border-2 border-background"
             animate={{ scale: [1, 1.2, 1] }}
@@ -84,14 +104,14 @@ const HeroSection = () => {
           >_</motion.span>
         </motion.h1>
 
-        <motion.p
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
           className="text-muted-foreground text-lg md:text-xl max-w-xl leading-relaxed mb-10"
         >
-          {t.hero.subtitle}
-        </motion.p>
+          <TypingAnimation text={t.hero.subtitle} delay={1} />
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
