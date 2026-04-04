@@ -26,7 +26,7 @@ const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                {"<MA />"}
+                {"<MA/>"}
               </motion.span>
             </motion.div>
             <motion.div
