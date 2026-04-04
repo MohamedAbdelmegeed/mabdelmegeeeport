@@ -10,6 +10,10 @@ const projectMeta = [
     link: "https://ldi-website-m9g4.vercel.app/index.html",
   },
   {
+    tags: ["HTML", "CSS", "JavaScript"],
+    link: "https://core-x-fitness-beige.vercel.app/",
+  },
+  {
     tags: ["Python", "React", "Next.js"],
     link: null,
   },
