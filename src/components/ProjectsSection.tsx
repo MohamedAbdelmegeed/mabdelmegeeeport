@@ -10,7 +10,7 @@ const projectMeta = [
     link: "https://ldi-website-m9g4.vercel.app/index.html",
   },
   {
-    tags: ["HTML", "CSS", "JavaScript"],
+    tags: ["React", "TypeScript", "Tailwind CSS"],
     link: "https://core-x-fitness-beige.vercel.app/",
   },
   {
@@ -19,25 +19,15 @@ const projectMeta = [
   },
 ];
 
-// Lazy loading can sometimes fail on Vercel if the path isn't perfect
-const FloatingParticles = lazy(() => import("./FloatingParticles").catch(() => ({ default: () => null })));
+const FloatingParticles = lazy(() => import("./FloatingParticles"));
 
 const ProjectsSection = () => {
   const { t } = useLanguage();
   const isMobile = useIsMobile();
 
-  // If translations aren't loaded, Vercel/React might crash trying to map 'undefined'
-  if (!t || !t.projects || !t.projects.items) {
-    return null;
-  }
-
   return (
     <section id="projects" className="py-28 px-6 relative">
-      {!isMobile && (
-        <Suspense fallback={null}>
-          <FloatingParticles count={6} />
-        </Suspense>
-      )}
+      {!isMobile && <Suspense fallback={null}><FloatingParticles count={6} /></Suspense>}
 
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.p
@@ -48,7 +38,15 @@ const ProjectsSection = () => {
         >
           {t.projects.tag}
         </motion.p>
-      
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1 }}
+          className="font-heading text-3xl md:text-5xl font-bold mb-4"
+        >
+          {t.projects.title}<span className="text-gradient">{t.projects.titleHighlight}</span>
+        </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -60,7 +58,7 @@ const ProjectsSection = () => {
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {t.projects.items.map((project: any, i: number) => {
+          {t.projects.items.map((project, i) => {
             const meta = projectMeta[i];
             return (
               <motion.div
@@ -72,12 +70,9 @@ const ProjectsSection = () => {
                 whileHover={{ y: -5, boxShadow: "0 0 60px hsl(160 60% 45% / 0.1)" }}
                 className="glass border-glow rounded-xl p-6 group cursor-default relative overflow-hidden"
               >
-                <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
-                  style={{
-                    background: "radial-gradient(circle at 50% 0%, hsl(160 60% 45% / 0.05), transparent 70%)"
-                  }} 
-                />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                  background: "radial-gradient(circle at 50% 0%, hsl(160 60% 45% / 0.05), transparent 70%)"
+                }} />
 
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-4">
@@ -102,8 +97,7 @@ const ProjectsSection = () => {
                   </p>
 
                   <div className="flex flex-wrap gap-2">
-                    {/* Added optional chaining ?. to prevent build errors */}
-                    {meta?.tags?.map((tag: string) => (
+                    {meta?.tags.map(tag => (
                       <span key={tag} className="font-heading text-xs text-muted-foreground bg-secondary/50 px-2 py-1 rounded">
                         {tag}
                       </span>
