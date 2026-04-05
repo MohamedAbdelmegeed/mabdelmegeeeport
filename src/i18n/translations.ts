@@ -88,6 +88,11 @@ export const translations = {
           status: "Finished",
         },
         {
+          title: "CoreX Gym",
+          description: "A modern fitness website featuring class schedules, membership plans, and an engaging UI for a premium gym experience.",
+          status: "Finished",
+        },
+        {
           title: "More Projects Coming Soon",
           description: "Currently working on exciting projects in data science and web development. Stay tuned!",
           status: "Planned",
@@ -207,6 +212,11 @@ export const translations = {
         {
           title: "موقع معهد القيادة (LDI)",
           description: "تطوير منصة إلكترونية للتواجد المؤسسي وتقديم المعلومات لوزارة التعليم العالي، مصر.",
+          status: "مكتمل",
+        },
+        {
+          title: "CoreX Gym",
+          description: "موقع لياقة بدنية حديث يتضمن جداول التمارين وخطط العضوية وواجهة مستخدم جذابة لتجربة صالة رياضية متميزة.",
           status: "مكتمل",
         },
         {
