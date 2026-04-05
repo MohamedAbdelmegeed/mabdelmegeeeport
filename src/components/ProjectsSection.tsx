@@ -10,7 +10,7 @@ const projectMeta = [
     link: "https://ldi-website-m9g4.vercel.app/index.html",
   },
   {
-    tags: ["HTML", "CSS", "JavaScript"],
+    tags: ["HTML", "CSS Tailwind", "JavaScript"],
     link: "https://core-x-fitness-beige.vercel.app/",
   },
   {
@@ -25,9 +25,16 @@ const ProjectsSection = () => {
   const { t } = useLanguage();
   const isMobile = useIsMobile();
 
+  // Safety check to ensure translations are loaded before mapping
+  if (!t?.projects?.items) return null;
+
   return (
     <section id="projects" className="py-28 px-6 relative">
-      {!isMobile && <Suspense fallback={null}><FloatingParticles count={6} /></Suspense>}
+      {!isMobile && (
+        <Suspense fallback={null}>
+          <FloatingParticles count={6} />
+        </Suspense>
+      )}
 
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.p
@@ -62,9 +69,12 @@ const ProjectsSection = () => {
                 whileHover={{ y: -5, boxShadow: "0 0 60px hsl(160 60% 45% / 0.1)" }}
                 className="glass border-glow rounded-xl p-6 group cursor-default relative overflow-hidden"
               >
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
-                  background: "radial-gradient(circle at 50% 0%, hsl(160 60% 45% / 0.05), transparent 70%)"
-                }} />
+                <div 
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
+                  style={{
+                    background: "radial-gradient(circle at 50% 0%, hsl(160 60% 45% / 0.05), transparent 70%)"
+                  }} 
+                />
 
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-4">
@@ -89,7 +99,7 @@ const ProjectsSection = () => {
                   </p>
 
                   <div className="flex flex-wrap gap-2">
-                    {meta?.tags.map(tag => (
+                    {meta?.tags?.map((tag) => (
                       <span key={tag} className="font-heading text-xs text-muted-foreground bg-secondary/50 px-2 py-1 rounded">
                         {tag}
                       </span>
