@@ -10,7 +10,7 @@ const projectMeta = [
     link: "https://ldi-website-m9g4.vercel.app/index.html",
   },
   {
-    tags: ["HTML", "CSS Tailwind", "JavaScript"],
+    tags: ["HTML", "CSS", "JavaScript"],
     link: "https://core-x-fitness-beige.vercel.app/",
   },
   {
@@ -19,14 +19,17 @@ const projectMeta = [
   },
 ];
 
-const FloatingParticles = lazy(() => import("./FloatingParticles"));
+// Lazy loading can sometimes fail on Vercel if the path isn't perfect
+const FloatingParticles = lazy(() => import("./FloatingParticles").catch(() => ({ default: () => null })));
 
 const ProjectsSection = () => {
   const { t } = useLanguage();
   const isMobile = useIsMobile();
 
-  // Safety check to ensure translations are loaded before mapping
-  if (!t?.projects?.items) return null;
+  // If translations aren't loaded, Vercel/React might crash trying to map 'undefined'
+  if (!t || !t.projects || !t.projects.items) {
+    return null;
+  }
 
   return (
     <section id="projects" className="py-28 px-6 relative">
@@ -57,7 +60,7 @@ const ProjectsSection = () => {
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {t.projects.items.map((project, i) => {
+          {t.projects.items.map((project: any, i: number) => {
             const meta = projectMeta[i];
             return (
               <motion.div
@@ -99,7 +102,8 @@ const ProjectsSection = () => {
                   </p>
 
                   <div className="flex flex-wrap gap-2">
-                    {meta?.tags?.map((tag) => (
+                    {/* Added optional chaining ?. to prevent build errors */}
+                    {meta?.tags?.map((tag: string) => (
                       <span key={tag} className="font-heading text-xs text-muted-foreground bg-secondary/50 px-2 py-1 rounded">
                         {tag}
                       </span>
