@@ -10,7 +10,7 @@ const projectMeta = [
     link: "https://ldi-website-m9g4.vercel.app/index.html",
   },
   {
-    tags: ["React", "TypeScript", "Tailwind CSS"],
+    tags: ["HTMl", "Tailwind CSS", "Javascript"],
     link: "https://core-x-fitness-beige.vercel.app/",
   },
   {
