@@ -88,6 +88,11 @@ export const translations = {
           status: "Finished",
         },
         {
+          title: "CoreX Gym",
+          description: "A modern fitness website featuring class schedules, membership plans, and an engaging UI for a premium gym experience.",
+          status: "Finished",
+        },
+        {
           title: "More Projects Coming Soon",
           description: "Currently working on exciting projects in data science and web development. Stay tuned!",
           status: "Planned",
