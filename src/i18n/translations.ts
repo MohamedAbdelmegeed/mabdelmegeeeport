@@ -87,8 +87,8 @@ export const translations = {
           description: "Developing a web-based platform for institutional presence and information delivery for the Ministry of Higher Education, Egypt.",
           status: "Finished",
         },
-          {
-          title: "CoreX gym",
+        {
+          title: "CoreX Gym",
           description: "A modern fitness website featuring class schedules, membership plans, and an engaging UI for a premium gym experience.",
           status: "Finished",
         },
@@ -214,9 +214,9 @@ export const translations = {
           description: "تطوير منصة إلكترونية للتواجد المؤسسي وتقديم المعلومات لوزارة التعليم العالي، مصر.",
           status: "مكتمل",
         },
-            {
-          title: "كور اكس صالة رياضية",
-          description: "موقع إلكتروني حديث للياقة البدنية يعرض جداول الحصص، وخطط العضوية، وواجهة مستخدم جذابة لتجربة صالة رياضية مميزة.",
+        {
+          title: "CoreX Gym",
+          description: "موقع لياقة بدنية حديث يتضمن جداول التمارين وخطط العضوية وواجهة مستخدم جذابة لتجربة صالة رياضية متميزة.",
           status: "مكتمل",
         },
         {
