@@ -87,6 +87,11 @@ export const translations = {
           description: "Developing a web-based platform for institutional presence and information delivery for the Ministry of Higher Education, Egypt.",
           status: "Finished",
         },
+          {
+          title: "CoreX gym",
+          description: "A modern fitness website featuring class schedules, membership plans, and an engaging UI for a premium gym experience.",
+          status: "Finished",
+        },
         {
           title: "More Projects Coming Soon",
           description: "Currently working on exciting projects in data science and web development. Stay tuned!",
