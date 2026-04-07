@@ -15,8 +15,14 @@ const TimelineSection = lazy(() => import("@/components/TimelineSection"));
 const ContactSection = lazy(() => import("@/components/ContactSection"));
 
 const Divider = () => (
-  <div className="max-w-4xl mx-auto px-6">
-    <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+  <div className="max-w-4xl mx-auto px-6 py-2">
+    <motion.div
+      initial={{ scaleX: 0 }}
+      whileInView={{ scaleX: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent origin-center"
+    />
   </div>
 );
 
