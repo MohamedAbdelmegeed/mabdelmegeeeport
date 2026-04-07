@@ -11,6 +11,23 @@ const AboutSection = () => {
     { icon: Brain, title: t.about.h3Title, desc: t.about.h3Desc },
   ];
 
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 40, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { type: "spring" as const, stiffness: 120, damping: 15 },
+    },
+  };
+
   return (
     <section id="about" className="py-28 px-6 relative">
       <div className="max-w-4xl mx-auto">
@@ -21,28 +38,28 @@ const AboutSection = () => {
           transition={{ duration: 0.8 }}
         >
           <motion.p
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: -30, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
             viewport={{ once: true }}
-            className="font-heading text-primary text-sm mb-2 tracking-wider"
+            className="font-heading text-primary text-sm mb-2 tracking-[0.2em] uppercase"
           >
             {t.about.tag}
           </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: 0.1, type: "spring" as const }}
             className="font-heading text-3xl md:text-5xl font-bold mb-12"
           >
             {t.about.title}<span className="text-gradient">{t.about.titleHighlight}</span>
           </motion.h2>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 40, scale: 0.97 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: 0.2, type: "spring" as const }}
             className="glass-ultra border-glow rounded-2xl p-6 md:p-10 glow-box mb-12 shimmer"
           >
             <p className="text-secondary-foreground leading-relaxed mb-4 text-base md:text-lg">
@@ -56,28 +73,36 @@ const AboutSection = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {highlights.map((item, i) => (
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-4"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {highlights.map((item) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 + i * 0.15 }}
-                whileHover={{ y: -5, boxShadow: "0 0 40px hsl(160 60% 45% / 0.1)" }}
+                variants={cardVariants}
+                whileHover={{
+                  y: -8,
+                  boxShadow: "0 0 50px hsl(160 60% 45% / 0.15)",
+                  transition: { type: "spring", stiffness: 300 },
+                }}
                 className="glass-ultra border-glow rounded-xl p-5 text-center group cursor-default shimmer"
               >
                 <motion.div
-                  whileHover={{ rotate: 10, scale: 1.1 }}
-                  className="w-12 h-12 mx-auto mb-3 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors"
+                  whileHover={{ rotate: 15, scale: 1.2 }}
+                  transition={{ type: "spring" }}
+                  className="w-14 h-14 mx-auto mb-3 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors group-hover:shadow-[0_0_20px_hsl(160_60%_45%/0.2)]"
                 >
-                  <item.icon className="w-6 h-6 text-primary" />
+                  <item.icon className="w-7 h-7 text-primary" />
                 </motion.div>
-                <h3 className="font-heading text-sm font-semibold text-foreground mb-1">{item.title}</h3>
+                <h3 className="font-heading text-sm font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
                 <p className="text-muted-foreground text-xs">{item.desc}</p>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
