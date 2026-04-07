@@ -62,7 +62,7 @@ const ContactSection = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.3 + i * 0.1 }}
               whileHover={{ x: 8, boxShadow: "0 0 40px hsl(160 60% 45% / 0.1)" }}
-              className="flex items-center gap-4 glass border-glow rounded-xl p-5 group transition-all cursor-pointer"
+              className="flex items-center gap-4 glass-ultra border-glow rounded-xl p-5 group transition-all cursor-pointer shimmer"
             >
               <motion.div
                 whileHover={{ rotate: 10 }}

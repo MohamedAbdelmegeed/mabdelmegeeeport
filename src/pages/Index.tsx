@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import LoadingScreen from "@/components/LoadingScreen";
 import BackToTop from "@/components/BackToTop";
+import CustomCursor from "@/components/CustomCursor";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const AboutSection = lazy(() => import("@/components/AboutSection"));
@@ -35,6 +36,7 @@ const Index = () => {
         animate={{ opacity: loading ? 0 : 1 }}
         transition={{ duration: 0.5 }}
       >
+        <CustomCursor />
         <Navbar />
         <HeroSection />
         <Suspense fallback={null}>

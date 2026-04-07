@@ -68,7 +68,7 @@ const ProjectsSection = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 + i * 0.15 }}
                 whileHover={{ y: -5, boxShadow: "0 0 60px hsl(160 60% 45% / 0.1)" }}
-                className="glass border-glow rounded-xl p-6 group cursor-default relative overflow-hidden"
+                className="glass-ultra border-glow rounded-xl p-6 group cursor-default relative overflow-hidden shimmer"
               >
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
                   background: "radial-gradient(circle at 50% 0%, hsl(160 60% 45% / 0.05), transparent 70%)"

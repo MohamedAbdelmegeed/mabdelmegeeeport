@@ -123,7 +123,7 @@ const HeroSection = () => {
             href="#contact"
             whileHover={{ scale: 1.05, boxShadow: "0 0 40px hsl(160 60% 45% / 0.3)" }}
             whileTap={{ scale: 0.95 }}
-            className="font-heading text-sm px-8 py-3.5 bg-primary text-primary-foreground rounded-lg glow-box transition-all"
+            className="font-heading text-sm px-8 py-3.5 bg-primary text-primary-foreground rounded-lg glow-box transition-all border-glow-animated"
           >
             {t.hero.cta}
           </motion.a>
@@ -132,7 +132,7 @@ const HeroSection = () => {
             download
             whileHover={{ scale: 1.05, borderColor: "hsl(160, 60%, 45%)" }}
             whileTap={{ scale: 0.95 }}
-            className="font-heading text-sm px-8 py-3.5 border-glow rounded-lg text-foreground glass transition-all inline-flex items-center justify-center gap-2"
+            className="font-heading text-sm px-8 py-3.5 border-glow rounded-lg text-foreground glass-ultra transition-all inline-flex items-center justify-center gap-2 shimmer"
           >
             <Download className="w-4 h-4" />
             {t.hero.cv}

@@ -54,7 +54,7 @@ const SkillsSection = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.07 }}
               whileHover={{ scale: 1.02, y: -2 }}
-              className="glass border-glow rounded-xl p-5 group cursor-default transition-shadow hover:glow-box"
+              className="glass-ultra border-glow rounded-xl p-5 group cursor-default transition-shadow hover:glow-box shimmer"
             >
               <div className="flex justify-between items-center mb-3">
                 <span className="font-heading text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
@@ -93,7 +93,7 @@ const SkillsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="glass border-glow rounded-xl p-5"
+            className="glass-ultra border-glow rounded-xl p-5 shimmer"
           >
             <h3 className="font-heading text-sm font-bold text-foreground mb-4">
               <span className="text-primary">{">"}</span> {t.skills.toolsTitle}
@@ -119,7 +119,7 @@ const SkillsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
-            className="glass border-glow rounded-xl p-5"
+            className="glass-ultra border-glow rounded-xl p-5 shimmer"
           >
             <h3 className="font-heading text-sm font-bold text-foreground mb-4">
               <span className="text-primary">{">"}</span> {t.skills.languagesTitle}
