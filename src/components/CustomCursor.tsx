@@ -1,102 +1,90 @@
-import { useEffect, useState, useRef } from "react";
-import { motion, useSpring, useMotionValue } from "framer-motion";
+import { useEffect, useCallback, useRef } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const CustomCursor = () => {
   const isMobile = useIsMobile();
-  const [isHovering, setIsHovering] = useState(false);
-  const [isClicking, setIsClicking] = useState(false);
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-  const trailX = useSpring(cursorX, { damping: 25, stiffness: 200 });
-  const trailY = useSpring(cursorY, { damping: 25, stiffness: 200 });
-  const glowX = useSpring(cursorX, { damping: 40, stiffness: 120 });
-  const glowY = useSpring(cursorY, { damping: 40, stiffness: 120 });
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+  const pos = useRef({ x: -100, y: -100 });
+  const ringPos = useRef({ x: -100, y: -100 });
+  const hovering = useRef(false);
+  const rafId = useRef(0);
+
+  const tick = useCallback(() => {
+    // Lerp ring toward cursor
+    ringPos.current.x += (pos.current.x - ringPos.current.x) * 0.15;
+    ringPos.current.y += (pos.current.y - ringPos.current.y) * 0.15;
+
+    if (dotRef.current) {
+      dotRef.current.style.transform = `translate3d(${pos.current.x}px, ${pos.current.y}px, 0) translate(-50%, -50%)`;
+      dotRef.current.style.width = dotRef.current.style.height = hovering.current ? "48px" : "10px";
+    }
+    if (ringRef.current) {
+      ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate(-50%, -50%)`;
+      ringRef.current.style.width = ringRef.current.style.height = hovering.current ? "64px" : "36px";
+    }
+    if (glowRef.current) {
+      glowRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate(-50%, -50%)`;
+    }
+
+    rafId.current = requestAnimationFrame(tick);
+  }, []);
 
   useEffect(() => {
     if (isMobile) return;
 
-    const move = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
+    const onMove = (e: MouseEvent) => {
+      pos.current.x = e.clientX;
+      pos.current.y = e.clientY;
     };
-
-    const handleOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest("a, button, [role='button'], input, textarea, select, [data-cursor-hover]")) {
-        setIsHovering(true);
+    const onOver = (e: MouseEvent) => {
+      if ((e.target as HTMLElement).closest("a, button, [role='button'], input, textarea, select, [data-cursor-hover]")) {
+        hovering.current = true;
       }
     };
+    const onOut = () => { hovering.current = false; };
 
-    const handleOut = () => setIsHovering(false);
-    const handleDown = () => setIsClicking(true);
-    const handleUp = () => setIsClicking(false);
+    window.addEventListener("mousemove", onMove, { passive: true });
+    window.addEventListener("mouseover", onOver, { passive: true });
+    window.addEventListener("mouseout", onOut, { passive: true });
 
-    window.addEventListener("mousemove", move, { passive: true });
-    window.addEventListener("mouseover", handleOver, { passive: true });
-    window.addEventListener("mouseout", handleOut, { passive: true });
-    window.addEventListener("mousedown", handleDown);
-    window.addEventListener("mouseup", handleUp);
+    rafId.current = requestAnimationFrame(tick);
 
     return () => {
-      window.removeEventListener("mousemove", move);
-      window.removeEventListener("mouseover", handleOver);
-      window.removeEventListener("mouseout", handleOut);
-      window.removeEventListener("mousedown", handleDown);
-      window.removeEventListener("mouseup", handleUp);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseover", onOver);
+      window.removeEventListener("mouseout", onOut);
+      cancelAnimationFrame(rafId.current);
     };
-  }, [isMobile, cursorX, cursorY]);
+  }, [isMobile, tick]);
 
   if (isMobile) return null;
 
   return (
     <>
-      {/* Main cursor dot */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference"
-        style={{ x: cursorX, y: cursorY, translateX: "-50%", translateY: "-50%" }}
-      >
-        <motion.div
-          animate={{
-            width: isHovering ? 48 : isClicking ? 8 : 12,
-            height: isHovering ? 48 : isClicking ? 8 : 12,
-            borderRadius: "50%",
-          }}
-          transition={{ type: "spring", damping: 20, stiffness: 300 }}
-          className="bg-white rounded-full"
-        />
-      </motion.div>
-
-      {/* Trailing ring */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9998]"
-        style={{ x: trailX, y: trailY, translateX: "-50%", translateY: "-50%" }}
-      >
-        <motion.div
-          animate={{
-            width: isHovering ? 64 : 40,
-            height: isHovering ? 64 : 40,
-            borderWidth: isHovering ? 2 : 1,
-            opacity: isClicking ? 0.3 : 0.5,
-          }}
-          transition={{ type: "spring", damping: 20, stiffness: 200 }}
-          className="rounded-full border-primary/50"
-          style={{ borderStyle: "solid", borderColor: "hsl(160 60% 45% / 0.4)" }}
-        />
-      </motion.div>
-
-      {/* Ambient glow that follows cursor */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9997]"
-        style={{ x: glowX, y: glowY, translateX: "-50%", translateY: "-50%" }}
-      >
-        <div
-          className="w-[300px] h-[300px] rounded-full opacity-[0.07]"
-          style={{
-            background: "radial-gradient(circle, hsl(160 60% 45%), transparent 70%)",
-          }}
-        />
-      </motion.div>
+      <div
+        ref={dotRef}
+        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference rounded-full bg-white transition-[width,height] duration-200 ease-out"
+        style={{ width: 10, height: 10, willChange: "transform" }}
+      />
+      <div
+        ref={ringRef}
+        className="fixed top-0 left-0 pointer-events-none z-[9998] rounded-full transition-[width,height] duration-300 ease-out"
+        style={{
+          width: 36, height: 36,
+          border: "1px solid hsl(160 60% 45% / 0.4)",
+          willChange: "transform",
+        }}
+      />
+      <div
+        ref={glowRef}
+        className="fixed top-0 left-0 pointer-events-none z-[9997] w-[250px] h-[250px] rounded-full opacity-[0.06]"
+        style={{
+          background: "radial-gradient(circle, hsl(160 60% 45%), transparent 70%)",
+          willChange: "transform",
+        }}
+      />
     </>
   );
 };

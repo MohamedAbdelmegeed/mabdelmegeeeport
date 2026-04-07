@@ -11,10 +11,10 @@ const Navbar = () => {
 
   const navItems = [
     { label: t.nav.about, href: "#about" },
-    { label: t.nav.skills, href: "#skills" },
     { label: t.nav.journey, href: "#timeline" },
-    { label: t.nav.development, href: "#development" },
+    { label: t.nav.skills, href: "#skills" },
     { label: t.nav.projects, href: "#projects" },
+    { label: t.nav.development, href: "#development" },
     { label: t.nav.contact, href: "#contact" },
   ];
 
