@@ -36,6 +36,7 @@ const Index = () => {
         animate={{ opacity: loading ? 0 : 1 }}
         transition={{ duration: 0.5 }}
       >
+        <CustomCursor />
         <Navbar />
         <HeroSection />
         <Suspense fallback={null}>

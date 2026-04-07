@@ -43,7 +43,7 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="glass border-glow rounded-2xl p-6 md:p-10 glow-box mb-12"
+            className="glass-ultra border-glow rounded-2xl p-6 md:p-10 glow-box mb-12 shimmer"
           >
             <p className="text-secondary-foreground leading-relaxed mb-4 text-base md:text-lg">
               {t.about.p1}
@@ -65,7 +65,7 @@ const AboutSection = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 + i * 0.15 }}
                 whileHover={{ y: -5, boxShadow: "0 0 40px hsl(160 60% 45% / 0.1)" }}
-                className="glass border-glow rounded-xl p-5 text-center group cursor-default"
+                className="glass-ultra border-glow rounded-xl p-5 text-center group cursor-default shimmer"
               >
                 <motion.div
                   whileHover={{ rotate: 10, scale: 1.1 }}

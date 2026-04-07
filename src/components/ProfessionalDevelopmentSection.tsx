@@ -64,7 +64,7 @@ const ProfessionalDevelopmentSection = () => {
 
                 <motion.div
                   whileHover={{ x: 6, boxShadow: "0 0 40px hsl(160 60% 45% / 0.1)" }}
-                  className="glass border-glow rounded-xl p-5 transition-all cursor-default"
+                  className="glass-ultra border-glow rounded-xl p-5 transition-all cursor-default shimmer"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-2">
                     <h3 className="font-heading text-sm font-bold text-foreground">{event.title}</h3>
@@ -100,7 +100,7 @@ const ProfessionalDevelopmentSection = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 + i * 0.1 }}
                 whileHover={{ x: 6 }}
-                className="glass border-glow rounded-xl p-4 flex items-center gap-3 cursor-default"
+                className="glass-ultra border-glow rounded-xl p-4 flex items-center gap-3 cursor-default shimmer"
               >
                 <Star className="w-4 h-4 text-primary shrink-0" />
                 <p className="text-sm text-foreground">{activity}</p>
