@@ -25,7 +25,7 @@ const HeroSection = () => {
       transition: {
         delay: 0.6 + i * 0.04,
         duration: 0.5,
-        type: "spring",
+        type: "spring" as const,
         stiffness: 150,
       },
     }),
