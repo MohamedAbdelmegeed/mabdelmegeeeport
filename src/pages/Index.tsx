@@ -59,15 +59,21 @@ const Index = () => {
           <Divider />
           <ContactSection />
         </Suspense>
-        <footer className="py-10 px-6 border-t border-border/50 text-center relative">
+        <footer className="py-12 px-6 border-t border-primary/10 text-center relative glass-ultra">
           <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="font-heading text-xs text-muted-foreground"
           >
             © {new Date().getFullYear()} {t.footer.text}
           </motion.p>
+          <motion.div
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px"
+            style={{ background: "linear-gradient(90deg, transparent, hsl(160 60% 45% / 0.5), transparent)" }}
+            animate={{ width: ["6rem", "12rem", "6rem"], opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 4, repeat: Infinity }}
+          />
         </footer>
         <BackToTop />
       </motion.div>
