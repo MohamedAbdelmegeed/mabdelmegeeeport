@@ -153,18 +153,19 @@
     background: linear-gradient(
       105deg,
       transparent 40%,
-      hsl(var(--primary) / 0.04) 45%,
-      hsl(var(--primary) / 0.08) 50%,
-      hsl(var(--primary) / 0.04) 55%,
+      hsl(var(--primary) / 0.03) 47%,
+      hsl(var(--primary) / 0.06) 50%,
+      hsl(var(--primary) / 0.03) 53%,
       transparent 60%
     );
     background-size: 200% 100%;
-    animation: shimmer-move 6s ease-in-out infinite;
+    animation: shimmer-move 8s ease-in-out infinite;
     pointer-events: none;
+    will-change: background-position;
   }
   @keyframes shimmer-move {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+    0%, 100% { background-position: 200% 0; }
+    50% { background-position: -200% 0; }
   }
   .border-glow-animated {
     position: relative;

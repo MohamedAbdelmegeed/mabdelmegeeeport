@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Folder, ArrowUpRight } from "lucide-react";
+import { ExternalLink, Folder, ArrowUpRight, Flame } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { lazy, Suspense } from "react";
@@ -25,24 +25,40 @@ const ProjectsSection = () => {
   const { t } = useLanguage();
   const isMobile = useIsMobile();
 
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.9, rotateX: -10 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      rotateX: 0,
+      transition: {
+        delay: 0.2 + i * 0.15,
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 15,
+      },
+    }),
+  };
+
   return (
     <section id="projects" className="py-28 px-6 relative">
-      {!isMobile && <Suspense fallback={null}><FloatingParticles count={6} /></Suspense>}
+      {!isMobile && <Suspense fallback={null}><FloatingParticles count={5} /></Suspense>}
 
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.p
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, x: -30, filter: "blur(4px)" }}
+          whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
           viewport={{ once: true }}
-          className="font-heading text-primary text-sm mb-2 tracking-wider"
+          className="font-heading text-primary text-sm mb-2 tracking-[0.2em] uppercase"
         >
           {t.projects.tag}
         </motion.p>
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
+          transition={{ delay: 0.1, type: "spring" as const }}
           className="font-heading text-3xl md:text-5xl font-bold mb-4"
         >
           {t.projects.title}<span className="text-gradient">{t.projects.titleHighlight}</span>
@@ -57,34 +73,49 @@ const ProjectsSection = () => {
           {t.projects.subtitle}
         </motion.p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5" style={{ perspective: "800px" }}>
           {t.projects.items.map((project, i) => {
             const meta = projectMeta[i];
             return (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                custom={i}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
                 viewport={{ once: true }}
-                transition={{ delay: 0.3 + i * 0.15 }}
-                whileHover={{ y: -5, boxShadow: "0 0 60px hsl(160 60% 45% / 0.1)" }}
+                whileHover={{
+                  y: -10,
+                  boxShadow: "0 20px 60px hsl(160 60% 45% / 0.12), 0 0 80px hsl(160 60% 45% / 0.06)",
+                  transition: { type: "spring", stiffness: 300 },
+                }}
                 className="glass-ultra border-glow rounded-xl p-6 group cursor-default relative overflow-hidden shimmer"
               >
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
-                  background: "radial-gradient(circle at 50% 0%, hsl(160 60% 45% / 0.05), transparent 70%)"
+                  background: "radial-gradient(circle at 50% 0%, hsl(160 60% 45% / 0.08), transparent 70%)"
                 }} />
 
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-4">
-                    <Folder className="w-8 h-8 text-primary/60 group-hover:text-primary transition-colors" />
+                    <motion.div
+                      whileHover={{ rotate: 15, scale: 1.2 }}
+                      transition={{ type: "spring" }}
+                    >
+                      <Folder className="w-8 h-8 text-primary/60 group-hover:text-primary transition-colors" />
+                    </motion.div>
                     <div className="flex items-center gap-2">
                       <span className="font-heading text-xs px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20">
                         {project.status}
                       </span>
                       {meta?.link && (
-                        <a href={meta.link} target="_blank" rel="noopener noreferrer">
+                        <motion.a
+                          href={meta.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.3, rotate: 45 }}
+                        >
                           <ArrowUpRight className="w-4 h-4 text-muted-foreground hover:text-primary transition-colors" />
-                        </a>
+                        </motion.a>
                       )}
                     </div>
                   </div>
@@ -97,10 +128,17 @@ const ProjectsSection = () => {
                   </p>
 
                   <div className="flex flex-wrap gap-2">
-                    {meta?.tags.map(tag => (
-                      <span key={tag} className="font-heading text-xs text-muted-foreground bg-secondary/50 px-2 py-1 rounded">
+                    {meta?.tags.map((tag, ti) => (
+                      <motion.span
+                        key={tag}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.5 + ti * 0.05 }}
+                        className="font-heading text-xs text-muted-foreground bg-secondary/50 px-2 py-1 rounded border border-border/50"
+                      >
                         {tag}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                 </div>
