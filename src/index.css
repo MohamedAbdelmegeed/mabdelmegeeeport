@@ -4,7 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
   :root {
     --background: 220 20% 4%;
     --foreground: 60 10% 90%;

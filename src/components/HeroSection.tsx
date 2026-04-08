@@ -159,7 +159,7 @@ const HeroSection = () => {
         </motion.p>
 
         {/* Name with per-letter animation */}
-        <h1 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+        <h1 className="font-heading text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 whitespace-nowrap">
           <motion.span
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
