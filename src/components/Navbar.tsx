@@ -19,6 +19,16 @@ const Navbar = () => {
     { label: t.nav.contact, href: "#contact" },
   ];
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const id = href.replace("#", "");
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    setOpen(false);
+  };
+
   return (
     <motion.nav
       initial={{ y: -80, opacity: 0 }}
