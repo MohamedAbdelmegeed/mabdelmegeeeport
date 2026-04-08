@@ -28,7 +28,7 @@ const Divider = () => (
 
 const Index = () => {
   const { t } = useLanguage();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   return (
     <>

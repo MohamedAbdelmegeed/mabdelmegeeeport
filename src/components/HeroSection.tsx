@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, lazy, Suspense } from "react";
 import { Download, Zap } from "lucide-react";
-import profilePhoto from "@/assets/profile-photo.jpeg";
+import profilePhoto from "@/assets/profile-photo.webp";
 import TypingAnimation from "./TypingAnimation";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -35,7 +35,6 @@ const HeroSection = () => {
 
   return (
     <section ref={ref} className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden pt-14">
-      {/* Dragon energy orbs */}
       {!isMobile && (
         <>
           <motion.div
@@ -66,16 +65,19 @@ const HeroSection = () => {
             }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           />
-          {/* Grid overlay */}
-          <div className="absolute inset-0 opacity-[0.02]" style={{
-            backgroundImage: 'linear-gradient(hsl(160 60% 45%) 1px, transparent 1px), linear-gradient(90deg, hsl(160 60% 45%) 1px, transparent 1px)',
-            backgroundSize: '80px 80px',
-          }} />
-          {/* Diagonal streaks */}
+          <div
+            className="absolute inset-0 opacity-[0.02]"
+            style={{
+              backgroundImage:
+                "linear-gradient(hsl(160 60% 45%) 1px, transparent 1px), linear-gradient(90deg, hsl(160 60% 45%) 1px, transparent 1px)",
+              backgroundSize: "80px 80px",
+            }}
+          />
           <motion.div
             className="absolute inset-0 opacity-[0.03]"
             style={{
-              background: "repeating-linear-gradient(45deg, transparent, transparent 100px, hsl(160 60% 45% / 0.05) 100px, hsl(160 60% 45% / 0.05) 101px)",
+              background:
+                "repeating-linear-gradient(45deg, transparent, transparent 100px, hsl(160 60% 45% / 0.05) 100px, hsl(160 60% 45% / 0.05) 101px)",
             }}
             animate={{ x: [0, 100], y: [0, -100] }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -84,11 +86,10 @@ const HeroSection = () => {
       )}
 
       <Suspense fallback={null}>
-        <FloatingParticles count={isMobile ? 4 : 12} />
+        <FloatingParticles count={isMobile ? 2 : 6} />
       </Suspense>
 
       <motion.div style={isMobile ? { opacity } : { y, opacity }} className="max-w-3xl w-full relative z-10 flex flex-col items-center text-center">
-        {/* Profile photo with dragon aura */}
         <motion.div
           initial={{ opacity: 0, scale: 0.3, rotate: -20 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -101,20 +102,19 @@ const HeroSection = () => {
               alt={t.hero.name}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               loading="eager"
+              decoding="async"
               width={208}
               height={208}
             />
           </div>
           {!isMobile && (
             <>
-              {/* Orbiting ring */}
               <motion.div
                 className="absolute inset-[-8px] rounded-full"
                 style={{ border: "1px solid hsl(160 60% 45% / 0.2)" }}
                 animate={{ rotate: 360 }}
                 transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
               />
-              {/* Orbiting dot */}
               <motion.div
                 className="absolute w-2 h-2 rounded-full bg-primary"
                 style={{ top: "50%", left: "50%", transformOrigin: "0 0" }}
@@ -125,7 +125,6 @@ const HeroSection = () => {
                   <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_hsl(160_60%_45%/0.8)]" />
                 </div>
               </motion.div>
-              {/* Pulse rings */}
               <motion.div
                 className="absolute inset-[-4px] rounded-full border border-primary/15"
                 animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0, 0.3] }}
@@ -138,7 +137,6 @@ const HeroSection = () => {
               />
             </>
           )}
-          {/* Status indicator */}
           <motion.div
             className="absolute bottom-2 right-2 md:bottom-3 md:right-3 w-4 h-4 rounded-full bg-primary border-2 border-background shadow-[0_0_12px_hsl(160_60%_45%/0.6)]"
             animate={{ scale: [1, 1.3, 1] }}
@@ -146,7 +144,6 @@ const HeroSection = () => {
           />
         </motion.div>
 
-        {/* Greeting with flash */}
         <motion.p
           initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -158,37 +155,39 @@ const HeroSection = () => {
           <Zap className="w-3 h-3 inline-block ml-1 mb-0.5" />
         </motion.p>
 
-        {/* Name with per-letter animation */}
-        <h1 className="font-heading text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 whitespace-nowrap">
+        <h1 className="font-heading font-bold leading-[0.95] mb-6">
           <motion.span
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
+            className="block text-3xl sm:text-4xl md:text-6xl lg:text-7xl"
           >
             {t.hero.intro}
           </motion.span>
-          <span className="text-gradient inline-block" style={{ perspective: "600px" }}>
-            {nameLetters.map((letter, i) => (
-              <motion.span
-                key={i}
-                custom={i}
-                variants={letterVariants}
-                initial="hidden"
-                animate="visible"
-                className="inline-block"
-                style={{ display: letter === " " ? "inline" : "inline-block" }}
-              >
-                {letter === " " ? "\u00A0" : letter}
-              </motion.span>
-            ))}
-          </span>
-          <motion.span
-            className="text-primary inline-block"
-            animate={{ opacity: [1, 0] }}
-            transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
-          >
-            _
-          </motion.span>
+          <div className="mt-1 flex items-end justify-center gap-1 whitespace-nowrap text-[clamp(1.15rem,6.4vw,4.5rem)] md:text-6xl lg:text-7xl">
+            <span className="text-gradient inline-block" style={{ perspective: "600px" }}>
+              {nameLetters.map((letter, i) => (
+                <motion.span
+                  key={i}
+                  custom={i}
+                  variants={letterVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="inline-block"
+                  style={{ display: letter === " " ? "inline" : "inline-block" }}
+                >
+                  {letter === " " ? "\u00A0" : letter}
+                </motion.span>
+              ))}
+            </span>
+            <motion.span
+              className="text-primary inline-block"
+              animate={{ opacity: [1, 0] }}
+              transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
+            >
+              _
+            </motion.span>
+          </div>
         </h1>
 
         <motion.div
@@ -200,7 +199,6 @@ const HeroSection = () => {
           <TypingAnimation text={t.hero.subtitle} delay={1.2} />
         </motion.div>
 
-        {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -233,7 +231,6 @@ const HeroSection = () => {
           </motion.a>
         </motion.div>
 
-        {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
