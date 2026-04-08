@@ -57,6 +57,7 @@ const Navbar = () => {
             <motion.a
               key={item.href}
               href={item.href}
+              onClick={(e) => handleNavClick(e, item.href)}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + i * 0.08, type: "spring" }}
@@ -116,7 +117,7 @@ const Navbar = () => {
                 <motion.a
                   key={item.href}
                   href={item.href}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => handleNavClick(e, item.href)}
                   initial={{ x: -30, opacity: 0, filter: "blur(4px)" }}
                   animate={{ x: 0, opacity: 1, filter: "blur(0px)" }}
                   transition={{ delay: i * 0.06, type: "spring", stiffness: 150 }}
