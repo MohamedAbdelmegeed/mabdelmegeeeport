@@ -94,7 +94,7 @@
     font-family: var(--font-body);
   }
   @media (hover: hover) and (pointer: fine) {
-    * {
+    html[data-custom-cursor='enabled'] * {
       cursor: none !important;
     }
   }
@@ -125,28 +125,28 @@
     @apply border border-primary/20;
   }
   .glass {
-    background: hsl(var(--card) / 0.4);
-    backdrop-filter: blur(24px) saturate(1.5);
-    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    background: hsl(var(--card) / 0.62);
+    backdrop-filter: blur(12px) saturate(1.15);
+    -webkit-backdrop-filter: blur(12px) saturate(1.15);
     border: 1px solid hsl(var(--primary) / 0.08);
-    box-shadow: inset 0 1px 0 0 hsl(var(--primary) / 0.06), 0 4px 24px -4px hsl(var(--background) / 0.3);
+    box-shadow: inset 0 1px 0 0 hsl(var(--primary) / 0.05), 0 4px 20px -8px hsl(var(--background) / 0.25);
   }
   .glass-strong {
-    background: hsl(var(--card) / 0.55);
-    backdrop-filter: blur(40px) saturate(1.8);
-    -webkit-backdrop-filter: blur(40px) saturate(1.8);
+    background: hsl(var(--card) / 0.72);
+    backdrop-filter: blur(18px) saturate(1.2);
+    -webkit-backdrop-filter: blur(18px) saturate(1.2);
     border: 1px solid hsl(var(--primary) / 0.1);
-    box-shadow: inset 0 1px 0 0 hsl(var(--primary) / 0.08), 0 8px 32px -8px hsl(var(--background) / 0.4);
+    box-shadow: inset 0 1px 0 0 hsl(var(--primary) / 0.06), 0 8px 24px -10px hsl(var(--background) / 0.3);
   }
   .glass-ultra {
-    background: linear-gradient(135deg, hsl(var(--card) / 0.35), hsl(var(--card) / 0.15));
-    backdrop-filter: blur(32px) saturate(1.6);
-    -webkit-backdrop-filter: blur(32px) saturate(1.6);
+    background: linear-gradient(135deg, hsl(var(--card) / 0.72), hsl(var(--card) / 0.52));
+    backdrop-filter: blur(18px) saturate(1.18);
+    -webkit-backdrop-filter: blur(18px) saturate(1.18);
     border: 1px solid hsl(var(--primary) / 0.12);
-    box-shadow: 
-      inset 0 1px 0 0 hsl(var(--primary) / 0.1),
-      inset 0 -1px 0 0 hsl(var(--background) / 0.05),
-      0 8px 40px -8px hsl(var(--background) / 0.4);
+    box-shadow:
+      inset 0 1px 0 0 hsl(var(--primary) / 0.08),
+      inset 0 -1px 0 0 hsl(var(--background) / 0.04),
+      0 8px 28px -12px hsl(var(--background) / 0.32);
   }
   .shimmer {
     position: relative;
@@ -159,13 +159,13 @@
     background: linear-gradient(
       105deg,
       transparent 40%,
-      hsl(var(--primary) / 0.03) 47%,
-      hsl(var(--primary) / 0.06) 50%,
-      hsl(var(--primary) / 0.03) 53%,
+      hsl(var(--primary) / 0.025) 47%,
+      hsl(var(--primary) / 0.05) 50%,
+      hsl(var(--primary) / 0.025) 53%,
       transparent 60%
     );
     background-size: 200% 100%;
-    animation: shimmer-move 8s ease-in-out infinite;
+    animation: shimmer-move 12s ease-in-out infinite;
     pointer-events: none;
     will-change: background-position;
   }
@@ -184,16 +184,16 @@
     padding: 1px;
     background: linear-gradient(
       var(--glow-angle, 0deg),
-      hsl(var(--primary) / 0.3),
+      hsl(var(--primary) / 0.24),
       transparent 40%,
       transparent 60%,
-      hsl(var(--accent) / 0.2)
+      hsl(var(--accent) / 0.16)
     );
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    animation: glow-rotate 8s linear infinite;
+    animation: glow-rotate 12s linear infinite;
     pointer-events: none;
   }
   @keyframes glow-rotate {
@@ -212,9 +212,23 @@
     content: '';
     position: absolute;
     inset: 0;
-    opacity: 0.03;
+    opacity: 0.018;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
+  }
+  @media (max-width: 767px), (prefers-reduced-motion: reduce) {
+    .glass,
+    .glass-strong,
+    .glass-ultra {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: hsl(var(--card) / 0.9);
+    }
+    .shimmer::after,
+    .border-glow-animated::before,
+    .noise-bg::before {
+      display: none;
+    }
   }
 }
