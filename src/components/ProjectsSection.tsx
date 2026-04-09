@@ -1,8 +1,8 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ExternalLink, Folder, ArrowUpRight, Flame } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useRef } from "react";
 
 const projectMeta = [
   {
@@ -10,7 +10,7 @@ const projectMeta = [
     link: "https://ldi-website-m9g4.vercel.app/index.html",
   },
   {
-    tags: ["HTMl", "Tailwind CSS", "Javascript"],
+    tags: ["HTML", "Tailwind CSS", "JavaScript"],
     link: "https://core-x-fitness-beige.vercel.app/",
   },
   {
@@ -24,25 +24,39 @@ const FloatingParticles = lazy(() => import("./FloatingParticles"));
 const ProjectsSection = () => {
   const { t } = useLanguage();
   const isMobile = useIsMobile();
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
 
   const cardVariants = {
     hidden: { opacity: 0, y: 50, scale: 0.9, rotateX: -10 },
     visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      rotateX: 0,
+      opacity: 1, y: 0, scale: 1, rotateX: 0,
       transition: {
         delay: 0.2 + i * 0.15,
-        type: "spring" as const,
-        stiffness: 100,
-        damping: 15,
+        type: "spring" as const, stiffness: 100, damping: 15,
       },
     }),
   };
 
   return (
-    <section id="projects" className="py-28 px-6 relative">
+    <section ref={sectionRef} id="projects" className="py-28 px-6 relative overflow-hidden">
+      {/* Parallax bg */}
+      <motion.div
+        className="absolute w-[500px] h-[500px] rounded-full -left-40 top-10"
+        style={{
+          y: bgY,
+          background: "radial-gradient(circle, hsl(160 60% 45% / 0.05), transparent 70%)",
+        }}
+      />
+      <motion.div
+        className="absolute w-[400px] h-[400px] rounded-full -right-32 bottom-10"
+        style={{
+          y: bgY,
+          background: "radial-gradient(circle, hsl(280 60% 55% / 0.04), transparent 70%)",
+        }}
+      />
+
       {!isMobile && <Suspense fallback={null}><FloatingParticles count={5} /></Suspense>}
 
       <div className="max-w-4xl mx-auto relative z-10">
@@ -85,14 +99,22 @@ const ProjectsSection = () => {
                 whileInView="visible"
                 viewport={{ once: true }}
                 whileHover={{
-                  y: -10,
-                  boxShadow: "0 20px 60px hsl(160 60% 45% / 0.12), 0 0 80px hsl(160 60% 45% / 0.06)",
+                  y: -12,
+                  scale: 1.03,
+                  rotateX: 2,
+                  boxShadow: "0 24px 60px hsl(160 60% 45% / 0.15), 0 0 80px hsl(160 60% 45% / 0.06)",
                   transition: { type: "spring", stiffness: 300 },
                 }}
                 className="glass-ultra border-glow rounded-xl p-6 group cursor-default relative overflow-hidden shimmer"
               >
+                {/* Hover gradient overlay */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
                   background: "radial-gradient(circle at 50% 0%, hsl(160 60% 45% / 0.08), transparent 70%)"
+                }} />
+                {/* Bottom glow on hover */}
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
+                  background: "linear-gradient(90deg, transparent, hsl(160 60% 45% / 0.4), transparent)",
+                  boxShadow: "0 0 20px hsl(160 60% 45% / 0.3)",
                 }} />
 
                 <div className="relative z-10">
@@ -135,7 +157,8 @@ const ProjectsSection = () => {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.5 + ti * 0.05 }}
-                        className="font-heading text-xs text-muted-foreground bg-secondary/50 px-2 py-1 rounded border border-border/50"
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        className="font-heading text-xs text-muted-foreground bg-secondary/50 px-2 py-1 rounded border border-border/50 hover:border-primary/30 hover:text-primary transition-colors"
                       >
                         {tag}
                       </motion.span>
