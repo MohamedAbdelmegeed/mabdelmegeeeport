@@ -217,7 +217,19 @@
     pointer-events: none;
     z-index: 0;
   }
-  @media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  @media (max-width: 767px) {
+    .glass,
+    .glass-strong,
+    .glass-ultra {
+      backdrop-filter: blur(8px) saturate(1.1);
+      -webkit-backdrop-filter: blur(8px) saturate(1.1);
+    }
+    .border-glow-animated::before,
+    .noise-bg::before {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
     .glass,
     .glass-strong,
     .glass-ultra {

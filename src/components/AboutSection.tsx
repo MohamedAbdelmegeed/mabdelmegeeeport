@@ -1,9 +1,14 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Code2, Database, Brain } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useRef } from "react";
 
 const AboutSection = () => {
   const { t } = useLanguage();
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
+  const orbScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1.2, 0.8]);
 
   const highlights = [
     { icon: Code2, title: t.about.h1Title, desc: t.about.h1Desc },
@@ -13,24 +18,37 @@ const AboutSection = () => {
 
   const containerVariants = {
     hidden: {},
-    visible: {
-      transition: { staggerChildren: 0.15 },
-    },
+    visible: { transition: { staggerChildren: 0.15 } },
   };
 
   const cardVariants = {
     hidden: { opacity: 0, y: 40, scale: 0.9 },
     visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
+      opacity: 1, y: 0, scale: 1,
       transition: { type: "spring" as const, stiffness: 120, damping: 15 },
     },
   };
 
   return (
-    <section id="about" className="py-28 px-6 relative">
-      <div className="max-w-4xl mx-auto">
+    <section ref={sectionRef} id="about" className="py-28 px-6 relative overflow-hidden">
+      {/* Parallax background orbs */}
+      <motion.div
+        className="absolute w-[500px] h-[500px] rounded-full -left-40 top-0"
+        style={{
+          y: bgY,
+          scale: orbScale,
+          background: "radial-gradient(circle, hsl(160 60% 45% / 0.06), transparent 70%)",
+        }}
+      />
+      <motion.div
+        className="absolute w-[400px] h-[400px] rounded-full -right-32 bottom-0"
+        style={{
+          y: bgY,
+          background: "radial-gradient(circle, hsl(280 60% 55% / 0.04), transparent 70%)",
+        }}
+      />
+
+      <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -62,15 +80,9 @@ const AboutSection = () => {
             transition={{ delay: 0.2, type: "spring" as const }}
             className="glass-ultra border-glow rounded-2xl p-6 md:p-10 glow-box mb-12 shimmer"
           >
-            <p className="text-secondary-foreground leading-relaxed mb-4 text-base md:text-lg">
-              {t.about.p1}
-            </p>
-            <p className="text-secondary-foreground leading-relaxed mb-4 text-base md:text-lg">
-              {t.about.p2}
-            </p>
-            <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
-              {t.about.p3}
-            </p>
+            <p className="text-secondary-foreground leading-relaxed mb-4 text-base md:text-lg">{t.about.p1}</p>
+            <p className="text-secondary-foreground leading-relaxed mb-4 text-base md:text-lg">{t.about.p2}</p>
+            <p className="text-muted-foreground leading-relaxed text-base md:text-lg">{t.about.p3}</p>
           </motion.div>
 
           <motion.div
@@ -86,7 +98,8 @@ const AboutSection = () => {
                 variants={cardVariants}
                 whileHover={{
                   y: -8,
-                  boxShadow: "0 0 50px hsl(160 60% 45% / 0.15)",
+                  scale: 1.04,
+                  boxShadow: "0 0 50px hsl(160 60% 45% / 0.15), 0 20px 40px hsl(160 60% 45% / 0.08)",
                   transition: { type: "spring", stiffness: 300 },
                 }}
                 className="glass-ultra border-glow rounded-xl p-5 text-center group cursor-default shimmer"

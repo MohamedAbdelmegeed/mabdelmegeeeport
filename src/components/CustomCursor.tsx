@@ -17,17 +17,20 @@ const CustomCursor = () => {
   });
 
   useEffect(() => {
-    if (isMobile || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      document.documentElement.removeAttribute("data-custom-cursor");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
     }
 
-    document.documentElement.setAttribute("data-custom-cursor", "enabled");
+    // Enable on all devices including mobile (touch + pointer)
+    const isTouch = "ontouchstart" in window;
 
-    // Inject hover glow effect via CSS
+    // On touch devices, use touch events; on desktop, use mouse
     const style = document.createElement("style");
     style.textContent = `
       @media (hover: hover) and (pointer: fine) {
+        html[data-custom-cursor='enabled'] * {
+          cursor: none !important;
+        }
         html[data-custom-cursor='enabled'] a:hover svg,
         html[data-custom-cursor='enabled'] button:hover svg,
         html[data-custom-cursor='enabled'] [role='button']:hover svg,
@@ -45,6 +48,10 @@ const CustomCursor = () => {
     `;
     document.head.appendChild(style);
 
+    if (!isTouch) {
+      document.documentElement.setAttribute("data-custom-cursor", "enabled");
+    }
+
     const tick = () => {
       const s = stateRef.current;
       s.ringX += (s.x - s.ringX) * 0.18;
@@ -59,9 +66,6 @@ const CustomCursor = () => {
       if (dotRef.current) {
         dotRef.current.style.opacity = opacity;
         dotRef.current.style.transform = `translate3d(${s.x}px, ${s.y}px, 0) translate(-50%, -50%) scale(${dotScale})`;
-        dotRef.current.style.background = s.hovering
-          ? "hsl(160 60% 45%)"
-          : "hsl(160 60% 45%)";
         dotRef.current.style.boxShadow = s.hovering
           ? "0 0 20px hsl(160 60% 45% / 0.8), 0 0 40px hsl(160 60% 45% / 0.3)"
           : "0 0 6px hsl(160 60% 45% / 0.4)";
@@ -83,6 +87,7 @@ const CustomCursor = () => {
       rafId.current = requestAnimationFrame(tick);
     };
 
+    // Mouse events
     const onMove = (e: MouseEvent) => {
       const s = stateRef.current;
       s.x = e.clientX;
@@ -94,10 +99,44 @@ const CustomCursor = () => {
     const onUp = () => { stateRef.current.pressed = false; };
     const onLeave = () => { const s = stateRef.current; s.visible = false; s.hovering = false; s.pressed = false; };
 
+    // Touch events for mobile glow effect
+    const onTouchStart = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      const s = stateRef.current;
+      s.x = touch.clientX;
+      s.y = touch.clientY;
+      s.ringX = touch.clientX;
+      s.ringY = touch.clientY;
+      s.glowX = touch.clientX;
+      s.glowY = touch.clientY;
+      s.visible = true;
+      s.pressed = true;
+      s.hovering = e.target instanceof Element && !!e.target.closest(INTERACTIVE_SELECTOR);
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      const s = stateRef.current;
+      s.x = touch.clientX;
+      s.y = touch.clientY;
+    };
+    const onTouchEnd = () => {
+      const s = stateRef.current;
+      s.pressed = false;
+      // Fade out after touch
+      setTimeout(() => { s.visible = false; s.hovering = false; }, 600);
+    };
+
     window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("mousedown", onDown, { passive: true });
     window.addEventListener("mouseup", onUp, { passive: true });
     document.addEventListener("mouseleave", onLeave);
+
+    if (isTouch) {
+      window.addEventListener("touchstart", onTouchStart, { passive: true });
+      window.addEventListener("touchmove", onTouchMove, { passive: true });
+      window.addEventListener("touchend", onTouchEnd, { passive: true });
+    }
+
     rafId.current = requestAnimationFrame(tick);
 
     return () => {
@@ -105,36 +144,35 @@ const CustomCursor = () => {
       window.removeEventListener("mousedown", onDown);
       window.removeEventListener("mouseup", onUp);
       document.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
       cancelAnimationFrame(rafId.current);
       document.documentElement.removeAttribute("data-custom-cursor");
       style.remove();
     };
-  }, [isMobile]);
+  }, []);
 
-  if (isMobile) return null;
-
+  // Render on all devices — on mobile it shows glow on touch
   return (
     <>
-      {/* Dot */}
       <div
         ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9999] hidden h-3 w-3 rounded-full opacity-0 md:block"
-        style={{ willChange: "transform, opacity", background: "hsl(160 60% 45%)", transition: "box-shadow 0.3s, background 0.3s" }}
+        className="pointer-events-none fixed left-0 top-0 z-[9999] h-3 w-3 rounded-full opacity-0"
+        style={{ willChange: "transform, opacity", background: "hsl(160 60% 45%)", transition: "box-shadow 0.3s" }}
       />
-      {/* Ring */}
       <div
         ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9998] hidden h-10 w-10 rounded-full border-2 opacity-0 md:block"
+        className="pointer-events-none fixed left-0 top-0 z-[9998] h-10 w-10 rounded-full border-2 opacity-0"
         style={{
           willChange: "transform, opacity",
           borderColor: "hsl(160 60% 45% / 0.25)",
-          transition: "border-color 0.3s, transform 0.15s",
+          transition: "border-color 0.3s",
         }}
       />
-      {/* Ambient glow */}
       <div
         ref={glowRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9997] hidden h-32 w-32 rounded-full opacity-0 md:block"
+        className="pointer-events-none fixed left-0 top-0 z-[9997] h-32 w-32 rounded-full opacity-0"
         style={{
           willChange: "transform, opacity",
           background: "radial-gradient(circle, hsl(160 60% 45% / 0.4), transparent 70%)",
