@@ -7,76 +7,97 @@ const CustomCursor = () => {
   const isMobile = useIsMobile();
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
   const rafId = useRef(0);
   const stateRef = useRef({
-    x: -100,
-    y: -100,
-    ringX: -100,
-    ringY: -100,
-    visible: false,
-    hovering: false,
-    pressed: false,
+    x: -100, y: -100,
+    ringX: -100, ringY: -100,
+    glowX: -100, glowY: -100,
+    visible: false, hovering: false, pressed: false,
   });
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (isMobile || prefersReducedMotion) {
+    if (isMobile || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       document.documentElement.removeAttribute("data-custom-cursor");
       return;
     }
 
     document.documentElement.setAttribute("data-custom-cursor", "enabled");
 
-    const tick = () => {
-      const state = stateRef.current;
-      state.ringX += (state.x - state.ringX) * 0.2;
-      state.ringY += (state.y - state.ringY) * 0.2;
+    // Inject hover glow effect via CSS
+    const style = document.createElement("style");
+    style.textContent = `
+      @media (hover: hover) and (pointer: fine) {
+        html[data-custom-cursor='enabled'] a:hover svg,
+        html[data-custom-cursor='enabled'] button:hover svg,
+        html[data-custom-cursor='enabled'] [role='button']:hover svg,
+        html[data-custom-cursor='enabled'] [data-cursor-hover]:hover svg {
+          filter: drop-shadow(0 0 8px hsl(160 60% 45% / 0.7)) drop-shadow(0 0 20px hsl(160 60% 45% / 0.3));
+          color: hsl(160 60% 45%) !important;
+          transition: filter 0.3s ease, color 0.3s ease;
+        }
+        html[data-custom-cursor='enabled'] a:hover,
+        html[data-custom-cursor='enabled'] button:hover,
+        html[data-custom-cursor='enabled'] [role='button']:hover {
+          filter: drop-shadow(0 0 6px hsl(160 60% 45% / 0.15));
+        }
+      }
+    `;
+    document.head.appendChild(style);
 
-      const dotScale = state.pressed ? 0.78 : state.hovering ? 1.5 : 1;
-      const ringScale = state.pressed ? 0.92 : state.hovering ? 1.28 : 1;
-      const opacity = state.visible ? "1" : "0";
+    const tick = () => {
+      const s = stateRef.current;
+      s.ringX += (s.x - s.ringX) * 0.18;
+      s.ringY += (s.y - s.ringY) * 0.18;
+      s.glowX += (s.x - s.glowX) * 0.08;
+      s.glowY += (s.y - s.glowY) * 0.08;
+
+      const dotScale = s.pressed ? 0.6 : s.hovering ? 2 : 1;
+      const ringScale = s.pressed ? 0.85 : s.hovering ? 1.6 : 1;
+      const opacity = s.visible ? "1" : "0";
 
       if (dotRef.current) {
         dotRef.current.style.opacity = opacity;
-        dotRef.current.style.transform = `translate3d(${state.x}px, ${state.y}px, 0) translate(-50%, -50%) scale(${dotScale})`;
+        dotRef.current.style.transform = `translate3d(${s.x}px, ${s.y}px, 0) translate(-50%, -50%) scale(${dotScale})`;
+        dotRef.current.style.background = s.hovering
+          ? "hsl(160 60% 45%)"
+          : "hsl(160 60% 45%)";
+        dotRef.current.style.boxShadow = s.hovering
+          ? "0 0 20px hsl(160 60% 45% / 0.8), 0 0 40px hsl(160 60% 45% / 0.3)"
+          : "0 0 6px hsl(160 60% 45% / 0.4)";
       }
 
       if (ringRef.current) {
         ringRef.current.style.opacity = opacity;
-        ringRef.current.style.transform = `translate3d(${state.ringX}px, ${state.ringY}px, 0) translate(-50%, -50%) scale(${ringScale})`;
+        ringRef.current.style.transform = `translate3d(${s.ringX}px, ${s.ringY}px, 0) translate(-50%, -50%) scale(${ringScale})`;
+        ringRef.current.style.borderColor = s.hovering
+          ? "hsl(160 60% 45% / 0.6)"
+          : "hsl(160 60% 45% / 0.25)";
+      }
+
+      if (glowRef.current) {
+        glowRef.current.style.opacity = s.visible ? (s.hovering ? "0.15" : "0.05") : "0";
+        glowRef.current.style.transform = `translate3d(${s.glowX}px, ${s.glowY}px, 0) translate(-50%, -50%)`;
       }
 
       rafId.current = requestAnimationFrame(tick);
     };
 
-    const onMove = (event: MouseEvent) => {
-      const state = stateRef.current;
-      state.x = event.clientX;
-      state.y = event.clientY;
-      state.visible = true;
-      state.hovering = event.target instanceof Element && !!event.target.closest(INTERACTIVE_SELECTOR);
+    const onMove = (e: MouseEvent) => {
+      const s = stateRef.current;
+      s.x = e.clientX;
+      s.y = e.clientY;
+      s.visible = true;
+      s.hovering = e.target instanceof Element && !!e.target.closest(INTERACTIVE_SELECTOR);
     };
-
-    const onDown = () => {
-      stateRef.current.pressed = true;
-    };
-
-    const onUp = () => {
-      stateRef.current.pressed = false;
-    };
-
-    const onLeave = () => {
-      stateRef.current.visible = false;
-      stateRef.current.hovering = false;
-      stateRef.current.pressed = false;
-    };
+    const onDown = () => { stateRef.current.pressed = true; };
+    const onUp = () => { stateRef.current.pressed = false; };
+    const onLeave = () => { const s = stateRef.current; s.visible = false; s.hovering = false; s.pressed = false; };
 
     window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("mousedown", onDown, { passive: true });
     window.addEventListener("mouseup", onUp, { passive: true });
     document.addEventListener("mouseleave", onLeave);
-
     rafId.current = requestAnimationFrame(tick);
 
     return () => {
@@ -86,6 +107,7 @@ const CustomCursor = () => {
       document.removeEventListener("mouseleave", onLeave);
       cancelAnimationFrame(rafId.current);
       document.documentElement.removeAttribute("data-custom-cursor");
+      style.remove();
     };
   }, [isMobile]);
 
@@ -93,17 +115,30 @@ const CustomCursor = () => {
 
   return (
     <>
+      {/* Dot */}
       <div
         ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9999] hidden h-2.5 w-2.5 rounded-full bg-primary opacity-0 md:block"
-        style={{ willChange: "transform, opacity" }}
+        className="pointer-events-none fixed left-0 top-0 z-[9999] hidden h-3 w-3 rounded-full opacity-0 md:block"
+        style={{ willChange: "transform, opacity", background: "hsl(160 60% 45%)", transition: "box-shadow 0.3s, background 0.3s" }}
       />
+      {/* Ring */}
       <div
         ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9998] hidden h-8 w-8 rounded-full border border-primary/35 opacity-0 md:block"
+        className="pointer-events-none fixed left-0 top-0 z-[9998] hidden h-10 w-10 rounded-full border-2 opacity-0 md:block"
         style={{
-          boxShadow: "0 0 18px hsl(var(--primary) / 0.16)",
           willChange: "transform, opacity",
+          borderColor: "hsl(160 60% 45% / 0.25)",
+          transition: "border-color 0.3s, transform 0.15s",
+        }}
+      />
+      {/* Ambient glow */}
+      <div
+        ref={glowRef}
+        className="pointer-events-none fixed left-0 top-0 z-[9997] hidden h-32 w-32 rounded-full opacity-0 md:block"
+        style={{
+          willChange: "transform, opacity",
+          background: "radial-gradient(circle, hsl(160 60% 45% / 0.4), transparent 70%)",
+          transition: "opacity 0.4s",
         }}
       />
     </>
