@@ -3,22 +3,32 @@ import { useEffect, useRef } from "react";
 const INTERACTIVE_SELECTOR = "a, button, [role='button'], input, textarea, select, [data-cursor-hover]";
 
 const CustomCursor = () => {
-  const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
-  const trailRefs = useRef<HTMLDivElement[]>([]);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafId = useRef(0);
-  const trail = useRef<{ x: number; y: number }[]>(Array.from({ length: 6 }, () => ({ x: -100, y: -100 })));
+  const particles = useRef<{ x: number; y: number; vx: number; vy: number; life: number; maxLife: number; size: number; hue: number }[]>([]);
   const stateRef = useRef({
     x: -100, y: -100,
     ringX: -100, ringY: -100,
     visible: false, hovering: false, pressed: false,
+    lastX: -100, lastY: -100,
+    angle: 0,
   });
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const isTouch = "ontouchstart" in window;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d")!;
+
+    const resize = () => {
+      canvas.width = window.innerWidth * devicePixelRatio;
+      canvas.height = window.innerHeight * devicePixelRatio;
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+    };
+    resize();
+    window.addEventListener("resize", resize);
 
     const style = document.createElement("style");
     style.textContent = `
@@ -32,80 +42,145 @@ const CustomCursor = () => {
           color: hsl(var(--primary)) !important;
           transition: filter 0.3s ease, color 0.3s ease;
         }
-        html[data-custom-cursor='enabled'] a:hover,
-        html[data-custom-cursor='enabled'] button:hover,
-        html[data-custom-cursor='enabled'] [role='button']:hover {
-          filter: drop-shadow(0 0 6px hsl(var(--primary) / 0.15));
-        }
       }
     `;
     document.head.appendChild(style);
+    if (!isTouch) document.documentElement.setAttribute("data-custom-cursor", "enabled");
 
-    if (!isTouch) {
-      document.documentElement.setAttribute("data-custom-cursor", "enabled");
-    }
+    const spawnParticles = (x: number, y: number, count: number) => {
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 2 + 0.5;
+        particles.current.push({
+          x, y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 1,
+          maxLife: 30 + Math.random() * 20,
+          size: Math.random() * 3 + 1,
+          hue: 160 + Math.random() * 40 - 20,
+        });
+      }
+    };
 
     const tick = () => {
       const s = stateRef.current;
-      // Ring follows with zero delay — instant positioning
-      s.ringX += (s.x - s.ringX) * 0.45;
-      s.ringY += (s.y - s.ringY) * 0.45;
+      s.ringX += (s.x - s.ringX) * 0.4;
+      s.ringY += (s.y - s.ringY) * 0.4;
+      s.angle += 0.03;
 
-      // Trail: each point follows the previous with slight easing
-      const t = trail.current;
-      t[0].x += (s.x - t[0].x) * 0.5;
-      t[0].y += (s.y - t[0].y) * 0.5;
-      for (let i = 1; i < t.length; i++) {
-        t[i].x += (t[i - 1].x - t[i].x) * (0.35 - i * 0.04);
-        t[i].y += (t[i - 1].y - t[i].y) * (0.35 - i * 0.04);
+      // Spawn trail particles based on movement speed
+      const dx = s.x - s.lastX;
+      const dy = s.y - s.lastY;
+      const speed = Math.sqrt(dx * dx + dy * dy);
+      if (s.visible && speed > 2) {
+        spawnParticles(s.x, s.y, Math.min(Math.floor(speed / 4), 4));
+      }
+      s.lastX = s.x;
+      s.lastY = s.y;
+
+      // Clear
+      ctx.clearRect(0, 0, canvas.width / devicePixelRatio, canvas.height / devicePixelRatio);
+
+      if (!s.visible) {
+        // Still update particles even when not visible
+        particles.current = particles.current.filter(p => {
+          p.life -= 1 / p.maxLife;
+          return p.life > 0;
+        });
+        rafId.current = requestAnimationFrame(tick);
+        return;
       }
 
-      const dotScale = s.pressed ? 0.5 : s.hovering ? 1.8 : 1;
-      const ringScale = s.pressed ? 0.8 : s.hovering ? 1.5 : 1;
-      const opacity = s.visible ? "1" : "0";
+      // Draw particles
+      particles.current = particles.current.filter(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vx *= 0.97;
+        p.vy *= 0.97;
+        p.life -= 1 / p.maxLife;
+        if (p.life <= 0) return false;
 
-      if (dotRef.current) {
-        dotRef.current.style.opacity = opacity;
-        dotRef.current.style.transform = `translate3d(${s.x}px, ${s.y}px, 0) translate(-50%, -50%) scale(${dotScale})`;
-        dotRef.current.style.boxShadow = s.hovering
-          ? "0 0 16px hsl(var(--primary) / 0.8), 0 0 32px hsl(var(--primary) / 0.4)"
-          : "0 0 8px hsl(var(--primary) / 0.5)";
+        ctx.save();
+        ctx.globalAlpha = p.life * 0.6;
+        ctx.fillStyle = `hsl(${p.hue} 60% 50%)`;
+        ctx.shadowColor = `hsl(${p.hue} 60% 50%)`;
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+        return true;
+      });
+
+      // Outer glow
+      const glowSize = s.hovering ? 60 : 35;
+      const glowAlpha = s.hovering ? 0.12 : 0.04;
+      const gradient = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, glowSize);
+      gradient.addColorStop(0, `hsla(160, 60%, 45%, ${glowAlpha})`);
+      gradient.addColorStop(1, "transparent");
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, glowSize, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Orbiting dots
+      const orbitRadius = s.hovering ? 18 : 12;
+      const orbitCount = s.hovering ? 4 : 3;
+      for (let i = 0; i < orbitCount; i++) {
+        const a = s.angle + (Math.PI * 2 / orbitCount) * i;
+        const ox = s.ringX + Math.cos(a) * orbitRadius;
+        const oy = s.ringY + Math.sin(a) * orbitRadius;
+        ctx.save();
+        ctx.globalAlpha = 0.7;
+        ctx.fillStyle = `hsl(${160 + i * 20} 60% 55%)`;
+        ctx.shadowColor = `hsl(${160 + i * 20} 60% 55%)`;
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        ctx.arc(ox, oy, s.hovering ? 2.5 : 1.8, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
       }
 
-      if (ringRef.current) {
-        ringRef.current.style.opacity = opacity;
-        ringRef.current.style.transform = `translate3d(${s.ringX}px, ${s.ringY}px, 0) translate(-50%, -50%) scale(${ringScale})`;
-        ringRef.current.style.borderColor = s.hovering
-          ? "hsl(var(--primary) / 0.7)"
-          : "hsl(var(--primary) / 0.3)";
-      }
+      // Ring
+      const ringScale = s.pressed ? 14 : s.hovering ? 20 : 16;
+      ctx.save();
+      ctx.strokeStyle = s.hovering ? "hsla(160, 60%, 45%, 0.6)" : "hsla(160, 60%, 45%, 0.25)";
+      ctx.lineWidth = 1.5;
+      ctx.shadowColor = "hsl(160 60% 45%)";
+      ctx.shadowBlur = s.hovering ? 15 : 5;
+      ctx.beginPath();
+      ctx.arc(s.ringX, s.ringY, ringScale, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
 
-      if (glowRef.current) {
-        glowRef.current.style.opacity = s.visible ? (s.hovering ? "0.2" : "0.06") : "0";
-        glowRef.current.style.transform = `translate3d(${s.x}px, ${s.y}px, 0) translate(-50%, -50%)`;
-      }
-
-      // Trail dots
-      for (let i = 0; i < trailRefs.current.length; i++) {
-        const el = trailRefs.current[i];
-        if (el) {
-          const fade = 1 - (i + 1) / (t.length + 1);
-          el.style.opacity = s.visible ? String(fade * 0.5) : "0";
-          el.style.transform = `translate3d(${t[i].x}px, ${t[i].y}px, 0) translate(-50%, -50%) scale(${fade * 0.8})`;
-        }
-      }
+      // Center dot with inner glow
+      const dotSize = s.pressed ? 3 : s.hovering ? 5 : 3.5;
+      ctx.save();
+      ctx.fillStyle = "hsl(160 60% 50%)";
+      ctx.shadowColor = "hsl(160 60% 50%)";
+      ctx.shadowBlur = s.hovering ? 20 : 10;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, dotSize, 0, Math.PI * 2);
+      ctx.fill();
+      // Inner bright core
+      ctx.fillStyle = "hsl(160 80% 80%)";
+      ctx.shadowBlur = 0;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, dotSize * 0.4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
 
       rafId.current = requestAnimationFrame(tick);
     };
 
     const onMove = (e: MouseEvent) => {
       const s = stateRef.current;
-      s.x = e.clientX;
-      s.y = e.clientY;
+      s.x = e.clientX; s.y = e.clientY;
       s.visible = true;
       s.hovering = e.target instanceof Element && !!e.target.closest(INTERACTIVE_SELECTOR);
     };
-    const onDown = () => { stateRef.current.pressed = true; };
+    const onDown = () => { stateRef.current.pressed = true; spawnParticles(stateRef.current.x, stateRef.current.y, 12); };
     const onUp = () => { stateRef.current.pressed = false; };
     const onLeave = () => { const s = stateRef.current; s.visible = false; s.hovering = false; s.pressed = false; };
 
@@ -114,9 +189,10 @@ const CustomCursor = () => {
       const s = stateRef.current;
       s.x = touch.clientX; s.y = touch.clientY;
       s.ringX = touch.clientX; s.ringY = touch.clientY;
+      s.lastX = touch.clientX; s.lastY = touch.clientY;
       s.visible = true; s.pressed = true;
       s.hovering = e.target instanceof Element && !!e.target.closest(INTERACTIVE_SELECTOR);
-      trail.current.forEach(p => { p.x = touch.clientX; p.y = touch.clientY; });
+      spawnParticles(touch.clientX, touch.clientY, 8);
     };
     const onTouchMove = (e: TouchEvent) => {
       const touch = e.touches[0];
@@ -132,7 +208,6 @@ const CustomCursor = () => {
     window.addEventListener("mousedown", onDown, { passive: true });
     window.addEventListener("mouseup", onUp, { passive: true });
     document.addEventListener("mouseleave", onLeave);
-
     if (isTouch) {
       window.addEventListener("touchstart", onTouchStart, { passive: true });
       window.addEventListener("touchmove", onTouchMove, { passive: true });
@@ -149,6 +224,7 @@ const CustomCursor = () => {
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("resize", resize);
       cancelAnimationFrame(rafId.current);
       document.documentElement.removeAttribute("data-custom-cursor");
       style.remove();
@@ -156,40 +232,11 @@ const CustomCursor = () => {
   }, []);
 
   return (
-    <>
-      {/* Dot — instant, no delay */}
-      <div
-        ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9999] h-2.5 w-2.5 rounded-full opacity-0"
-        style={{ willChange: "transform, opacity", background: "hsl(var(--primary))", transition: "box-shadow 0.2s, transform 0.08s linear" }}
-      />
-      {/* Ring — near-instant follow */}
-      <div
-        ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9998] h-9 w-9 rounded-full border-[1.5px] opacity-0"
-        style={{ willChange: "transform, opacity", borderColor: "hsl(var(--primary) / 0.3)", transition: "border-color 0.2s, transform 0.06s linear" }}
-      />
-      {/* Glow — instant position */}
-      <div
-        ref={glowRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9997] h-28 w-28 rounded-full opacity-0"
-        style={{ willChange: "transform, opacity", background: "radial-gradient(circle, hsl(var(--primary) / 0.35), transparent 70%)", transition: "opacity 0.3s" }}
-      />
-      {/* Trail dots */}
-      {Array.from({ length: 6 }, (_, i) => (
-        <div
-          key={i}
-          ref={el => { if (el) trailRefs.current[i] = el; }}
-          className="pointer-events-none fixed left-0 top-0 z-[9996] rounded-full opacity-0"
-          style={{
-            willChange: "transform, opacity",
-            width: `${6 - i}px`,
-            height: `${6 - i}px`,
-            background: "hsl(var(--primary))",
-          }}
-        />
-      ))}
-    </>
+    <canvas
+      ref={canvasRef}
+      className="pointer-events-none fixed inset-0 z-[9999]"
+      style={{ width: "100vw", height: "100vh" }}
+    />
   );
 };
 
