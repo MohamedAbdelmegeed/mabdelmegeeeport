@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 interface Stat { value: number; label: string; suffix?: string; }
 
 const stats: Stat[] = [
-  { value: 3, label: "Years Coding", suffix: "+" },
+  { value: 1, label: "Years Coding", suffix: "+" },
   { value: 10, label: "Tech Stack", suffix: "+" },
   { value: 3.26, label: "GPA", suffix: "" },
   { value: 5, label: "Projects Built", suffix: "+" },
