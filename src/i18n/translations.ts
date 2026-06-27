@@ -46,12 +46,12 @@ export const translations = {
           title: "B.Sc. Computer Science & AI",
           org: "Helwan National University",
           date: "Sep 2024 – Present",
-          details: "Level 2 · GPA: 3.26 · Cairo, Egypt",
+          details: "Level 2 · GPA: 3.2 · Cairo, Egypt",
         },
         {
-          title: "Data Science Trainee",
+          title: "Data Engineering Trainee",
           org: "Digital Egypt Pioneers Initiative (DEPI)",
-          date: "Dec 2025 – Present",
+          date: "Nov 2025 – Present",
           details: "Intensive data science program by the Egyptian government",
         },
         {
@@ -63,7 +63,7 @@ export const translations = {
         {
           title: "Senior Mentor",
           org: "Royal Tot's Camp",
-          date: "2023 – 2024",
+          date: "2023 , 2024",
           details: "Led mentoring programs and guided younger participants",
         },
       ],
@@ -130,7 +130,9 @@ export const translations = {
         { date: "Nov 2025", title: "AI, Science & Innovation Celebration", org: "Helwan University (Sponsored by Roseatom)" },
       ],
       activities: [
-        "Leadership Support Member – Leadership Development Institute (LDI), Ministry of Higher Education",
+        
+        "Leadership Tech Support Member – Leadership Development Institute (LDI), Ministry of Higher Education",
+        "Web Dev member in Tech Team – FCSIT Scientific Committee – HNU",
         "Faculty Leader for Level 2 – Computer Science – HNU",
         "Vice Head, Art Committee – Faculty Student Union",
       ],
