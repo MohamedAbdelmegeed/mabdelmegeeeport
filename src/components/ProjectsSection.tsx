@@ -6,7 +6,7 @@ import { lazy, Suspense, useRef } from "react";
 
 const projectMeta = [
   {
-    tags: ["HTML", "Tailwind CSS", "JavaScript","React","Python"],
+    tags: ["HTML", "CSS", "JavaScript","React","Python","Postgresql"],
     link: " https://ldi-helwan.vercel.app/",
   },
   {
