@@ -27,7 +27,7 @@ const projectMeta = [
   },
   
   {
-    tags: ["Java", "React", "Spring Boot"],
+    tags: ["Python","Java", "React", "Spring Boot"],
     link: null,
   },
 ];
