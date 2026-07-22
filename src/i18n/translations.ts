@@ -83,9 +83,19 @@ export const translations = {
       titleHighlight: "Work",
       subtitle: "A selection of projects I've been working on.",
       items: [
+         {
+          title: "LDI Event Management System | Ministry of Higher Education",
+          description: "Developed an enterprise event management system to digitize participant registration, QR-based attendance, warehouse operations, role-based administration, and reporting for the Leadership Development Institute (LDI).",
+          status: "Finished",
+        },
         {
           title: "Leadership Institute (LDI) Website",
           description: "Developing a web-based platform for institutional presence and information delivery for the Ministry of Higher Education, Egypt.",
+          status: "Finished",
+        },
+         {
+          title: "Terhal Tourism Company Website | Saudi Arabia",
+          description: "Designed and developed a responsive corporate website for a Saudi tourism company, showcasing travel packages, services, destinations, and company information with a modern, user-friendly interface.",
           status: "Finished",
         },
         {
