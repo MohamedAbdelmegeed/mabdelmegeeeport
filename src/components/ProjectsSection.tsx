@@ -5,10 +5,21 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { lazy, Suspense, useRef } from "react";
 
 const projectMeta = [
+   {
+    tags: ["Java","Spring Boot","Javascript","React","Postgresql"],
+    link: "https://ldisys.duckdns.org",
+    link: "https://github.com/farahsameh29-7/event-management-system",
+  },
   {
     tags: ["HTML", "CSS", "JS","React","Python","Postgresql"],
     link: " https://ldi-helwan.vercel.app/",
   },
+   
+  {
+    tags: ["HTML", "Tailwind CSS", "JavaScript","React"],
+    link: "https://terhal-travel.vercel.app/",
+  }
+  
   {
     tags: ["HTML", "Tailwind CSS", "JavaScript"],
     link: "https://core-x-fitness-beige.vercel.app/",
