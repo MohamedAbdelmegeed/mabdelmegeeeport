@@ -18,7 +18,7 @@ const projectMeta = [
   {
     tags: ["HTML", "Tailwind CSS", "JavaScript","React"],
     link: "https://terhal-travel.vercel.app/",
-  }
+  },
   
   {
     tags: ["HTML", "Tailwind CSS", "JavaScript"],
