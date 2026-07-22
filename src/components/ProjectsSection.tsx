@@ -8,7 +8,7 @@ const projectMeta = [
    {
     tags: ["Java","Spring Boot","Javascript","React","Postgresql"],
     link: "https://ldisys.duckdns.org",
-    link: "https://github.com/farahsameh29-7/event-management-system",
+   
   },
   {
     tags: ["HTML", "CSS", "JS","React","Python","Postgresql"],
