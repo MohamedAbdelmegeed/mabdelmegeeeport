@@ -89,7 +89,7 @@ export const translations = {
           status: "Finished",
         },
         {
-          title: "Leadership Institute (LDI) Website",
+          title: "Leadership Institute (LDI) Website | Ministry of Higher Education",
           description: "Developing a web-based platform for institutional presence and information delivery for the Ministry of Higher Education, Egypt.",
           status: "Finished",
         },
